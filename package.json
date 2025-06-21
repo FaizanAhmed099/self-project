@@ -1,0 +1,21 @@
+{
+  "name": "qurangpt",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "push": "git add . && git commit -m \"Auto commit\" && git push",
+    "pull": "git pull"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FaizanAhmed099/self-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FaizanAhmed099/self-project/issues"
+  },
+  "homepage": "https://github.com/FaizanAhmed099/self-project#readme",
+  "description": ""
+}
