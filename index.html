@@ -73,10 +73,32 @@
       <span class="logo-arabic">قُرْآن</span>
       <span class="logo-english">GPT</span>
     </div>
-    <form class="search-form" autocomplete="off">
-      <input type="text" class="search-input" placeholder="Search" />
-      <button type="submit" class="search-btn"><span class="search-icon">🔍</span></button>
-    </form>
+    <div class="modern-search-bar">
+      <div class="modern-search-row">
+        <input type="text" class="modern-search-input" placeholder="What do you want to know?" />
+        <button class="icon-btn send-btn" type="submit" title="Send">
+          <span class="material-symbols-outlined">arrow_upward</span>
+        </button>
+      </div>
+      <div class="modern-search-actions">
+        <button class="icon-btn attach-btn" type="button" title="Attach file">
+          <span class="material-symbols-outlined">attach_file</span>
+        </button>
+        <button class="modern-search-chip">
+          <span class="material-symbols-outlined">sync_alt</span>
+          DeepSearch
+          <span class="material-symbols-outlined dropdown-icon">expand_more</span>
+        </button>
+        <button class="modern-search-chip think-btn">
+          <span class="material-symbols-outlined">lightbulb</span>
+          Think
+        </button>
+        <div class="modern-search-select">
+          CodeQlik
+          <span class="material-symbols-outlined dropdown-icon">expand_more</span>
+        </div>
+      </div>
+    </div>
     <div class="info-text">
       <p class="headline">Ask us anything about Quran and Islam is coming soon</p>
       <p class="subtext">Free Research Preview. Quran GPT may produce inaccurate information about people, places, or facts.</p>
@@ -92,7 +114,7 @@
   <!-- Footer -->
   <footer>
     <div class="footer-left">
-      <p class="copyright">© 2023 - 2024 Copyright by Quran GPT</p>
+      <p class="copyright">© 2025 - 2026 Copyright by Quran GPT</p>
       <p class="developer">Developed and maintained by <a href="https://www.9xtechnology.com" target="_blank">9x Technology LLC</a></p>
     </div>
     <div class="footer-right">
@@ -107,5 +129,7 @@
 
   <script src="script.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <!-- Google Material Icons CDN -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </body>
 </html>
