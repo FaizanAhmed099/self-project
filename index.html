@@ -84,18 +84,32 @@
         <button class="icon-btn attach-btn" type="button" title="Attach file">
           <span class="material-symbols-outlined">attach_file</span>
         </button>
-        <button class="modern-search-chip">
-          <span class="material-symbols-outlined">sync_alt</span>
-          DeepSearch
-          <span class="material-symbols-outlined dropdown-icon">expand_more</span>
-        </button>
+        <div class="dropdown-group">
+          <button class="modern-search-chip" id="deepsearchDropdownBtn" type="button">
+            <span class="material-symbols-outlined">sync_alt</span>
+            DeepSearch
+            <span class="material-symbols-outlined dropdown-icon">expand_more</span>
+          </button>
+          <div class="dropdown-menu" id="deepsearchDropdown">
+            <div class="dropdown-item">CodeQlik</div>
+            <div class="dropdown-item">CodeQlik 2</div>
+            <div class="dropdown-item">CodeQlik 3</div>
+          </div>
+        </div>
         <button class="modern-search-chip think-btn">
           <span class="material-symbols-outlined">lightbulb</span>
           Think
         </button>
-        <div class="modern-search-select">
-          CodeQlik
-          <span class="material-symbols-outlined dropdown-icon">expand_more</span>
+        <div class="dropdown-group">
+          <div class="modern-search-select" id="codeqlikDropdownBtn">
+            CodeQlik
+            <span class="material-symbols-outlined dropdown-icon">expand_more</span>
+          </div>
+          <div class="dropdown-menu" id="codeqlikDropdown">
+            <div class="dropdown-item">CodeQlik</div>
+            <div class="dropdown-item">CodeQlik 2</div>
+            <div class="dropdown-item">CodeQlik 3</div>
+          </div>
         </div>
       </div>
     </div>
@@ -114,8 +128,8 @@
   <!-- Footer -->
   <footer>
     <div class="footer-left">
-      <p class="copyright">© 2025 - 2026 Copyright by Quran GPT</p>
-      <p class="developer">Developed and maintained by <a href="https://www.9xtechnology.com" target="_blank">9x Technology LLC</a></p>
+      <p class="copyright">© 2025 - 2026 Copyright by CodeQlik</p>
+      <p class="developer">Developed and maintained by <a href="https://www.CodeQlik.com" target="_blank">CodeQlik</a></p>
     </div>
     <div class="footer-right">
       <a href="#" class="store-badge">

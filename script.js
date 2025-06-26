@@ -54,3 +54,35 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Dropdown logic for DeepSearch and CodeQlik
+function setupDropdown(btnId, dropdownId) {
+  const btn = document.getElementById(btnId);
+  const group = btn.closest('.dropdown-group');
+  const dropdown = document.getElementById(dropdownId);
+
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    // Close all other dropdowns
+    document.querySelectorAll('.dropdown-group').forEach(g => {
+      if (g !== group) g.classList.remove('open');
+    });
+    group.classList.toggle('open');
+  });
+
+  dropdown.querySelectorAll('.dropdown-item').forEach(item => {
+    item.addEventListener('click', function() {
+      // Optionally update label here
+      group.classList.remove('open');
+    });
+  });
+}
+
+document.addEventListener('click', function() {
+  document.querySelectorAll('.dropdown-group').forEach(g => g.classList.remove('open'));
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+  setupDropdown('deepsearchDropdownBtn', 'deepsearchDropdown');
+  setupDropdown('codeqlikDropdownBtn', 'codeqlikDropdown');
+});
+
