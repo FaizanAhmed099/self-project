@@ -67,71 +67,11 @@
     <h1 class="editions-title">All Editions</h1>
     <div class="editions-grid" id="editionsGrid"></div>
   </div>
-  <script>
-    // Sample edition data
-    const editions = [
-      {
-        name: "King Fahad Quran Complex",
-        subtitle: "تفسير المیسر",
-        language: "Arabic",
-        type: "Tafsir"
-      },
-      {
-        name: "Vasim Mammadaliyev And Ziya Bunyadov",
-        subtitle: "Məmmədəliyev & Bünyadov",
-        language: "Azerbaijani",
-        type: "Translation"
-      },
-      {
-        name: "Alikhan Musayev",
-        subtitle: "Musayev",
-        language: "Azerbaijani",
-        type: "Translation"
-      },
-      {
-        name: "Muhiuddin Khan",
-        subtitle: "মুহিউদ্দীন খান",
-        language: "Bangla",
-        type: "Translation"
-      }
-    ];
-    function renderEditionCards() {
-      const grid = document.getElementById('editionsGrid');
-      if (!grid) return;
-      grid.innerHTML = '';
-      editions.forEach(edition => {
-        const card = document.createElement('a');
-        card.className = 'edition-card';
-        card.href = '#';
-        card.innerHTML = `
-          <div class="edition-icon"><span class="material-symbols-outlined">person</span></div>
-          <div class="edition-name"><b>${edition.name}</b></div>
-          <div class="edition-subtitle">${edition.subtitle}</div>
-          <div class="edition-language">Language : <span>${edition.language}</span></div>
-          <div class="edition-type">Type : <span>${edition.type}</span></div>
-          <button class="edition-action" onclick="event.stopPropagation(); event.preventDefault();"><span class="material-symbols-outlined">edit</span></button>
-        `;
-        grid.appendChild(card);
-      });
-    }
-    document.addEventListener('DOMContentLoaded', renderEditionCards);
 
-    // Sidebar toggle logic
-    document.addEventListener('DOMContentLoaded', () => {
-      const menuToggle = document.getElementById('menuToggle');
-      const sidebar = document.getElementById('sidebar');
-      const sidebarClose = document.getElementById('sidebarClose');
-      if (menuToggle && sidebar && sidebarClose) {
-        menuToggle.addEventListener('click', () => {
-          sidebar.classList.toggle('show');
-          menuToggle.classList.toggle('active');
-        });
-        sidebarClose.addEventListener('click', () => {
-          sidebar.classList.remove('show');
-          menuToggle.classList.remove('active');
-        });
-      }
-    });
-  </script>
+
+
+
+  
+  <script src="script.js"></script>
 </body>
 </html>

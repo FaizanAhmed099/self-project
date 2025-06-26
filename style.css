@@ -402,6 +402,10 @@ footer {
     border-top: 1px solid #eee;
 }
 
+
+
+
+
 /* Chapters Page */
 .chapters-section {
     padding: 2rem 5%;
@@ -747,6 +751,9 @@ footer {
   display: block;
 }
 
+
+
+
 /* Surahs Page */
 .surahs-section {
   padding: 2rem 5%;
@@ -845,6 +852,8 @@ footer {
   }
 }
 
+    /* Editions Page */
+    
 .editions-section {
   padding: 2rem 5%;
   position: relative;
