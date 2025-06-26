@@ -142,6 +142,7 @@ body {
     letter-spacing: 1px;
 }
 .main-btn:hover {
+    color: #080707;
     opacity: 0.92;
     box-shadow: 0 4px 16px rgba(247, 206, 104, 0.2);
 }
@@ -155,6 +156,7 @@ body {
 }
 
 .menu-btn {
+    margin-bottom: 20px;
     background: white;
     border: none;
     padding: 12px;
@@ -303,7 +305,7 @@ footer {
     font-size: 12px;
     font-weight: 500;
     display: flex;
-    background: #f0f0f0;
+    background: #f0f0f0ad;
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
@@ -462,17 +464,27 @@ footer {
 }
 
 .back-btn {
-    color: #2c3e50;
-    text-decoration: none;
-    font-size: 1rem;
+    display: inline-block;
+    font-size: 1.3rem;
     font-weight: bold;
-    padding: 12px 20px;
-    border-radius: 12px;
-    background: white;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    position: absolute;
-    left: 20px;
-    top: 20px;
+    color: #2c3e50;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    padding: 0.7rem 2rem;
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    margin-top: 0.5rem;
+    margin-right: 57rem;
+    transition: box-shadow 0.2s, background 0.2s;
+}
+.back-btn:hover {
+    background: #f7f7f7;
+    box-shadow: 0 4px 16px rgba(44,62,80,0.10);
+    color: #1a2533;
+}
+.back-btn b {
+    font-weight: bold;
 }
 
 /* Responsive adjustments */
@@ -733,5 +745,216 @@ footer {
 
 .dropdown-group.open .dropdown-menu {
   display: block;
+}
+
+/* Surahs Page */
+.surahs-section {
+  padding: 2rem 5%;
+  position: relative;
+  z-index: 1;
+}
+
+.surahs-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.surahs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  justify-content: center;
+}
+
+.surah-card {
+  background-color: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  background-image: url('https://www.pngall.com/wp-content/uploads/2016/05/Golden-Frame-PNG-HD.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.surah-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(247, 206, 104, 0.15);
+}
+
+.surah-number {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(to right, #f7ce68, #fbb034);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.surah-name {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.surah-english {
+  color: #888;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.surah-ayahs {
+  color: #bfa03a;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.surah-revelation {
+  color: #222;
+  font-size: 1.1rem;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 1.5rem auto;
+  padding-top: 1.2rem;
+  z-index: 10;
+  position: relative;
+}
+
+@media (max-width: 600px) {
+  .top-bar {
+    flex-direction: row;
+    padding-top: 0.7rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.editions-section {
+  padding: 2rem 5%;
+  position: relative;
+  z-index: 1;
+}
+
+.editions-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.editions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  justify-content: center;
+}
+
+.edition-card {
+  background-color: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  background-image: url('https://www.pngall.com/wp-content/uploads/2016/05/Golden-Frame-PNG-HD.png');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.edition-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(247, 206, 104, 0.15);
+}
+
+.edition-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(to bottom, #f7ce68, #fbb034);
+  color: #fff;
+  font-size: 2.2rem;
+  margin: 0 auto 0.7rem auto;
+}
+
+.edition-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.edition-subtitle {
+  color: #888;
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+}
+
+.edition-language {
+  color: #bfa03a;
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+}
+
+.edition-type {
+  color: #222;
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+}
+
+.edition-action {
+  background: none;
+  border: 2px solid #f7ce68;
+  border-radius: 10px;
+  padding: 0.4rem 0.7rem;
+  color: #bfa03a;
+  font-size: 1.3rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s, color 0.2s;
+}
+.edition-action:hover {
+  background: #f7ce68;
+  color: #fff;
+}
+
+@media (max-width: 600px) {
+  .editions-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .editions-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+  .edition-card {
+    padding: 1rem;
+    font-size: 1rem;
+  }
 }
   

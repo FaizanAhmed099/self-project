@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>All Editions - CodeQlik</title>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body>
+  <!-- Video Background -->
+  <video class="bg-video" autoplay loop muted playsinline poster="https://www.qurangpt.com/assets/video-cover-BA9MBhyQ.jpg">
+    <source src="https://www.qurangpt.com/assets/bg-BM5qRW6F.mp4" type="video/mp4">
+  </video>
+
+  <!-- Top Bar: Back and Menu Toggle -->
+  <div class="top-bar">
+    <a href="index.html" class="back-btn">&#8592; <b>Back to Home</b></a>
+    <button class="menu-btn" id="menuToggle">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="close-icon">✕</span>
+    </button>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar-right" id="sidebar">
+    <button class="sidebar-close-btn" id="sidebarClose">✕</button>
+    <div class="sidebar-content">
+      <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" class="user-icon" alt="User" />
+      <hr>
+      <p class="login-text">Login</p>
+      <hr>
+      <a href="index.html" class="menu-btn-outline">HOME</a>
+      <a href="chapters.html" class="menu-btn-filled">CHAPTER</a>
+      <a href="surahs.html" class="menu-btn-filled">SURAH</a>
+      <a href="editions.html" class="menu-btn-filled">EDITIONS</a>
+      <a href="#" class="menu-btn-filled">QIBLA DIRECTION</a>
+      <a href="#" class="menu-btn-filled">PRAYER TIMES</a>
+      <section class="info-section">
+        <div class="info-item">
+          <div class="info-header">
+            <span class="info-title">About us</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-header">
+            <span class="info-title">Privacy Policy</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-header">
+            <span class="info-title">Terms and Conditions</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-header">
+            <span class="info-title">Contact us</span>
+          </div>
+        </div>
+      </section>
+    </div>
+  </aside>
+
+  <div class="editions-section">
+    <h1 class="editions-title">All Editions</h1>
+    <div class="editions-grid" id="editionsGrid"></div>
+  </div>
+  <script>
+    // Sample edition data
+    const editions = [
+      {
+        name: "King Fahad Quran Complex",
+        subtitle: "تفسير المیسر",
+        language: "Arabic",
+        type: "Tafsir"
+      },
+      {
+        name: "Vasim Mammadaliyev And Ziya Bunyadov",
+        subtitle: "Məmmədəliyev & Bünyadov",
+        language: "Azerbaijani",
+        type: "Translation"
+      },
+      {
+        name: "Alikhan Musayev",
+        subtitle: "Musayev",
+        language: "Azerbaijani",
+        type: "Translation"
+      },
+      {
+        name: "Muhiuddin Khan",
+        subtitle: "মুহিউদ্দীন খান",
+        language: "Bangla",
+        type: "Translation"
+      }
+    ];
+    function renderEditionCards() {
+      const grid = document.getElementById('editionsGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      editions.forEach(edition => {
+        const card = document.createElement('a');
+        card.className = 'edition-card';
+        card.href = '#';
+        card.innerHTML = `
+          <div class="edition-icon"><span class="material-symbols-outlined">person</span></div>
+          <div class="edition-name"><b>${edition.name}</b></div>
+          <div class="edition-subtitle">${edition.subtitle}</div>
+          <div class="edition-language">Language : <span>${edition.language}</span></div>
+          <div class="edition-type">Type : <span>${edition.type}</span></div>
+          <button class="edition-action" onclick="event.stopPropagation(); event.preventDefault();"><span class="material-symbols-outlined">edit</span></button>
+        `;
+        grid.appendChild(card);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', renderEditionCards);
+
+    // Sidebar toggle logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuToggle = document.getElementById('menuToggle');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarClose = document.getElementById('sidebarClose');
+      if (menuToggle && sidebar && sidebarClose) {
+        menuToggle.addEventListener('click', () => {
+          sidebar.classList.toggle('show');
+          menuToggle.classList.toggle('active');
+        });
+        sidebarClose.addEventListener('click', () => {
+          sidebar.classList.remove('show');
+          menuToggle.classList.remove('active');
+        });
+      }
+    });
+  </script>
+</body>
+</html>
