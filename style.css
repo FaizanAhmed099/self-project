@@ -640,7 +640,7 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  background: #232323;
+  background: #232323f1;
   border-radius: 1.5rem;
   padding: 1rem 1.2rem;
   gap: 1.5rem;
@@ -1094,6 +1094,10 @@ footer {
   .chapter-card {
     margin-left: 0;
     margin-right: 0;
+  }
+  .navbar-container{
+    display: flex;
+    justify-content: space-between;
   }
   
 }
