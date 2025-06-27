@@ -525,6 +525,9 @@ footer {
         text-align: center;
         padding: 2rem 1.5rem;
     }
+    .back-btn{
+      margin-right: 29rem;
+    }
 }
 
 @media screen and (max-width: 900px) {
@@ -862,9 +865,9 @@ footer {
 
 @media (max-width: 900px) {
   .top-bar {
-    max-width: 100vw;
-    padding-top: 0.7rem;
-    margin-bottom: 1rem;
+    max-width: 88vw;
+    padding: 0.7rem 1.3rem;
+   margin: 0px !important;
   }
   .back-btn {
     font-size: 1rem;
@@ -883,7 +886,7 @@ footer {
     flex-direction: row;
     padding-top: 0.5rem;
     margin-bottom: 0.5rem;
-    max-width: 100vw;
+    max-width: 70vw;
   }
   .back-btn {
     font-size: 0.95rem;
@@ -1017,7 +1020,29 @@ footer {
     .modern-search-bar{
         width: 22rem;
     }
+    .navbar-container{
+      gap: 7rem !important;
+    }
 }
+
+@media(max-width:320px){
+  .modern-search-bar{
+    width: 18rem;
+  }
+  .modern-search-actions{
+    gap: 0.6rem;
+  }
+  .navbar-container{
+    gap: 4rem !important;
+  }
+}
+
+@media(max-width:425px){
+  .navbar-container{
+    gap: 10rem;
+  }
+}
+
  
  
  
