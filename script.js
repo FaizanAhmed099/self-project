@@ -39,18 +39,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Generate chapter cards if on chapters page
   if (chaptersGrid) {
-    for (let i = 1; i <= 30; i++) {
-      const card = document.createElement('a');
-      card.href = '#'; // Link to individual chapter page in the future
-      card.className = 'chapter-card';
+    // for (let i = 1; i <= 30; i++) {
+    //   const card = document.createElement('a');
+    //   card.href = '#'; // Link to individual chapter page in the future
+    //   card.className = 'chapter-card';
 
-      card.innerHTML = `
-        <div class="chapter-number">${i}</div>
-        <div class="chapter-juz">Chapter (Juz)</div>
-      `;
+    //   // card.innerHTML = `
+    //   //   <div class="chapter-number">${i}</div>
+    //   //   <div class="chapter-juz">Chapter (Juz)</div>
+    //   // `;
 
-      chaptersGrid.appendChild(card);
-    }
+    //   chaptersGrid.appendChild(card);
+    // }
   }
 });
 

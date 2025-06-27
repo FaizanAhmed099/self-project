@@ -427,14 +427,45 @@ footer {
     gap: 2rem;
     justify-content: center;
 }
-
+ 
+  .chapter-card:after{
+    content: "";
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    background: url(https://www.qurangpt.com/assets/bottom-B7KzH3MV.svg) no-repeat bottom left;
+    background-size: contain;
+    bottom: 0;
+    left: 0;
+    display: block;
+    z-index: 1 !important;
+  }
+  .chapter-card:before{
+    content: "";
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    background: url(https://www.qurangpt.com/assets/top-DI2NzM53.svg) no-repeat right top;
+    background-size: contain;
+    top: 0;
+    right: 0;
+    display: block;
+    z-index: 1 !important;
+  }
 .chapter-card {
+    border-radius: 6px;
+    border: 1px solid #E3B232;
+    background: #f8f8f8;
+    box-shadow: 0 4px 20px #e9b21c4f;
+    padding: 24px;
+    position: relative;
+    border: 1px solid #000;
+    height: 15rem;
+    width: 15rem;
     background-color: white;
-    border-radius: 15px;
-    padding: 1.5rem;
+    border-radius: 5px;
     text-align: center;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    background-image: url('https://www.pngall.com/wp-content/uploads/2016/05/Golden-Frame-PNG-HD.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center;
@@ -442,6 +473,12 @@ footer {
     text-decoration: none;
     color: inherit;
 }
+.chapter-card .card-body {
+  padding-top: 3rem !important;
+  padding-bottom: 3rem !important;
+  border: 1.5px solid #D3B358;
+}
+
 
 .chapter-card:hover {
     transform: translateY(-5px);
@@ -527,6 +564,12 @@ footer {
     }
     .back-btn{
       margin-right: 29rem;
+    }
+    .chapter-card{
+      width: 12rem;
+    }
+    .chapters-grid{
+      gap: 15px;
     }
 }
 
@@ -1023,6 +1066,9 @@ footer {
     .navbar-container{
       gap: 7rem !important;
     }
+    .chapters-grid{
+      grid-template-columns: 1fr !important;
+    }
 }
 
 @media(max-width:320px){
@@ -1035,11 +1081,31 @@ footer {
   .navbar-container{
     gap: 4rem !important;
   }
+  .chapters-grid{
+    grid-template-columns: 1fr !important;
+  }
 }
 
-@media(max-width:425px){
-  .navbar-container{
-    gap: 10rem;
+@media (max-width: 425px) {
+  .chapters-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    justify-items: stretch;
+  }
+  .chapter-card {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+}
+
+@media (max-width: 375px) {
+  .chapters-grid {
+    grid-template-columns: 1fr !important;
+    justify-items: center;
+  }
+  .chapter-card {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
