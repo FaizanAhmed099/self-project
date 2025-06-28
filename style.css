@@ -837,26 +837,63 @@ footer {
   justify-content: center;
 }
 
+/* Surah Card as Chapter Card */
 .surah-card {
+  border-radius: 6px;
+  border: 1px solid #E3B232;
+  background: #f8f8f8;
+  box-shadow: 0 4px 20px #e9b21c4f;
+  padding: 24px;
+  position: relative;
+  border: 1px solid #000;
+  height: 15rem;
+  width: 15rem;
   background-color: white;
-  border-radius: 15px;
-  padding: 1.5rem;
+  border-radius: 5px;
   text-align: center;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  background-image: url('https://www.pngall.com/wp-content/uploads/2016/05/Golden-Frame-PNG-HD.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
   transition: transform 0.2s, box-shadow 0.2s;
   text-decoration: none;
   color: inherit;
+  display: block;
 }
-
+.surah-card .card-body {
+  padding-top: 0.6rem !important;
+  padding-bottom: 3rem !important;
+  border: 1.5px solid #D3B358;
+  background: transparent;
+}
+.surah-card:after{
+  content: "";
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  background: url(https://www.qurangpt.com/assets/bottom-B7KzH3MV.svg) no-repeat bottom left;
+  background-size: contain;
+  bottom: 0;
+  left: 0;
+  display: block;
+  z-index: 1 !important;
+}
+.surah-card:before{
+  content: "";
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  background: url(https://www.qurangpt.com/assets/top-DI2NzM53.svg) no-repeat right top;
+  background-size: contain;
+  top: 0;
+  right: 0;
+  display: block;
+  z-index: 1 !important;
+}
 .surah-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(247, 206, 104, 0.15);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
-
 .surah-number {
   display: inline-block;
   width: 50px;
@@ -869,25 +906,21 @@ footer {
   font-weight: bold;
   margin-bottom: 1rem;
 }
-
 .surah-name {
   font-size: 1.3rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
 }
-
 .surah-english {
   color: #888;
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
 }
-
 .surah-ayahs {
   color: #bfa03a;
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
 }
-
 .surah-revelation {
   color: #222;
   font-size: 1.1rem;
@@ -917,11 +950,10 @@ footer {
     padding: 0.5rem 1rem;
     margin-left: 0.2rem;
   }
-  /* .menu-btn {
-    width: 38px;
-    height: 38px;
-    padding: 8px;
-  } */
+  .surahs-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
 }
 
 @media (max-width: 600px) {
@@ -937,11 +969,27 @@ footer {
     margin-left: 0.1rem;
     margin-right: 0.2rem;
   }
-  /* .menu-btn {
-    width: 34px;
-    height: 34px;
-    padding: 6px;
-  } */
+  .surahs-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .surah-card {
+    min-width: 0;
+    max-width: 100%;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 425px) {
+  .surahs-grid {
+    grid-template-columns: auto !important;
+    gap: 0.7rem;
+  }
+  .surah-card {
+    min-width: 0;
+    max-width: 100%;
+    padding: 0.7rem;
+  }
 }
 
     /* Editions Page */
