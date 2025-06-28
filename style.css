@@ -16,7 +16,7 @@ body {
     height: 100vh;
     object-fit: cover;
     z-index: -1;
-    opacity: 0.25;
+    opacity: 0.5;
 }
 
 /* section content centering */
@@ -245,7 +245,7 @@ hr {
 /* Buttons */
 .menu-btn-outline {
     width: 100%;
-    border: 2px solid gold;
+    border: 2px solid rgba(0, 0, 0, 0.639);
     padding: 12px;
     text-align: center;
     border-radius: 30px;
@@ -258,7 +258,7 @@ hr {
 }
 
 .menu-btn-outline:hover {
-    background: gold;
+    background-image: linear-gradient(to right, #f1d66e, #286634);
     color: white;
 }
 
@@ -1015,28 +1015,62 @@ footer {
   justify-content: center;
 }
 
+/* Edition Card as Chapter Card */
 .edition-card {
+  border-radius: 6px;
+  border: 1px solid #E3B232;
+  background: #f8f8f8;
+  box-shadow: 0 4px 20px #e9b21c4f;
+  padding: 24px;
+  position: relative;
+  border: 1px solid #000;
+  height: 22rem;
+  width: 18rem;
   background-color: white;
-  border-radius: 15px;
-  padding: 1.5rem;
+  border-radius: 5px;
   text-align: center;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  background-image: url('https://www.pngall.com/wp-content/uploads/2016/05/Golden-Frame-PNG-HD.png');
   background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: center;
   transition: transform 0.2s, box-shadow 0.2s;
   text-decoration: none;
   color: inherit;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.7rem;
+  display: block;
 }
-
+.edition-card .card-body {
+  padding-top: 3rem !important;
+  padding-bottom: 3rem !important;
+  border: 1.5px solid #D3B358;
+  background: transparent;
+}
+.edition-card:after{
+  content: "";
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  background: url(https://www.qurangpt.com/assets/bottom-B7KzH3MV.svg) no-repeat bottom left;
+  background-size: contain;
+  bottom: 0;
+  left: 0;
+  display: block;
+  z-index: 1 !important;
+}
+.edition-card:before{
+  content: "";
+  position: absolute;
+  height: 100px;
+  width: 100px;
+  background: url(https://www.qurangpt.com/assets/top-DI2NzM53.svg) no-repeat right top;
+  background-size: contain;
+  top: 0;
+  right: 0;
+  display: block;
+  z-index: 1 !important;
+}
 .edition-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(247, 206, 104, 0.15);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
 }
 
 .edition-icon {
@@ -1094,7 +1128,7 @@ footer {
 
 @media (max-width: 600px) {
   .editions-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto !important;
     gap: 1rem;
   }
   .editions-title {
@@ -1116,6 +1150,9 @@ footer {
     }
     .chapters-grid{
       grid-template-columns: 1fr !important;
+    }
+    .chapter-card{
+      width: 18rem !important;
     }
 }
 
