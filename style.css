@@ -577,6 +577,9 @@ footer {
     .chapter-breadcrumb-row{
       margin: 1.5rem 25px 0px 25px !important;
     }
+    .top-bar{
+      width: 85% !important;
+    }
 }
 
 @media screen and (max-width: 900px) {
@@ -616,18 +619,13 @@ footer {
         padding-right: 5rem;
     }
     .menu-btn{
-        margin-right: -3rem !important; 
+        margin-right: -6rem !important; 
     }
     .main-buttons {
         
         gap: 1rem;
     }
-    .main-btn {
-        width: 70%;
-      
-        font-size: 1rem;
-        
-    }
+
     .search-form {
         flex-direction: column;
         gap: 0.5rem;
@@ -1161,6 +1159,9 @@ footer {
     .chapter-card{
       width: 18rem !important;
     }
+    .chapter-breadcrumb-row{
+      white-space: nowrap;
+    }
 }
 
 @media(max-width:320px){
@@ -1191,6 +1192,13 @@ footer {
     display: flex;
     justify-content: space-between;
   } 
+  .change-editions-btn{
+    font-size: 12px !important;
+    margin: 12px 0px 25px 0px;
+  }
+  .chapter-breadcrumb-row{
+    margin: 0px !important;
+  }
   
 }
 
@@ -1219,6 +1227,10 @@ footer {
     margin-right: auto;
     height: auto;
     min-height: 22rem;
+  }
+  .top-bar{
+    flex-direction: row;
+    gap: 0rem !important;
   }
 }
 
@@ -1262,9 +1274,9 @@ footer {
 
 @media (max-width: 600px) {
   .top-bar {
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0.5rem 0.1rem;
+    flex-direction: row;
+    gap: 11rem;
+    
   }
   .top-bar .back-btn, .top-bar .main-btn {
     font-size: 0.9rem;
@@ -1272,8 +1284,7 @@ footer {
   }
   .chapter-content-card {
     padding: 0.5rem 0.1rem 0.1rem 0.1rem !important;
-    margin: 0.5rem 20px !important;
-    width: 24rem;
+    width: 22rem;
   }
   .chapter-content-card > div[style*='display: flex'] {
     flex-direction: column;
@@ -1426,6 +1437,13 @@ footer {
   height: 5rem;
 }
 
+.bar-btn{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
+}
 
  
  
