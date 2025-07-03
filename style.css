@@ -1445,6 +1445,120 @@ footer {
   margin: 0 auto;
 }
 
+/* --- Additions for chapter-one/al-faatiha header and ayat card --- */
+.surah-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0 1rem 0;
+}
+.surah-number {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f7ce68, #fbb034);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+.surah-info {
+  display: flex;
+  flex-direction: column;
+}
+.surah-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #222;
+}
+.surah-subtitle {
+  font-size: 1rem;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.ayah-badge {
+  background: #e53935;
+  color: #fff;
+  border-radius: 1rem;
+  padding: 0.2rem 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+  display: inline-block;
+}
+.ayat-card {
+  border: solid 0.5px brown;
+  border-radius: 5px;
+  width: 95.55%;
+  margin: auto;
+  margin-top: 2rem;
+  background: #fff;
+}
+.ayat-card .ayat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px 0px 15px;
+  font-weight: 600;
+  color: #a4551a;
+}
+.ayat-card .divider {
+  width: 100%;
+  height: 3px;
+  border: solid 2px #e6dcc8;
+}
+.ayat-card .arabic {
+  text-align: center;
+  padding-top: 1.5rem;
+  font-family: 'Amiri', serif;
+}
+.ayat-card .transliteration {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}
+.ayat-card .translation {
+  margin: 1.5rem;
+  color: #a4551a;
+  align-items: center;
+  text-align: center;
+}
+.ayat-card .actions {
+  background-image: url(assets/images/bg-img.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 30px 10px 25px;
+}
+.ayat-card .actions button {
+  background-color: transparent;
+  border: none;
+  color: #ce8610;
+  font-size: 1.5rem;
+  font-weight: 900;
+  padding: 0px;
+}
+@media (max-width: 600px) {
+  .ayat-card {
+    width: 99%;
+    margin-top: 1rem;
+  }
+  .surah-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 1rem 0 0.5rem 0;
+  }
+}
+
  
  
  
