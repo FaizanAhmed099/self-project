@@ -362,13 +362,17 @@ footer {
     cursor: pointer;
     border-bottom: 1px solid #eee;
 }
+.info-header a{
+  text-decoration: none;
+  color: black;
+}
 
 .info-item:last-child .info-header {
     border-bottom: none;
 }
 
 .info-title {
-    font-weight: 500;
+    font-weight: 600;
     font-size: 1rem;
 }
 
@@ -870,6 +874,7 @@ footer {
   padding-bottom: 3rem !important;
   border: 1.5px solid #D3B358;
   background: transparent;
+  text-align: -webkit-center;
 }
 .surah-card:after{
   content: "";
@@ -1559,6 +1564,62 @@ footer {
   }
 }
 
- 
- 
+/* About Us Page Styles */
+.about-bg {
+  min-height: 100vh;
+  background: #f8f9fa url('assets/images/bg-quran-6iIa1-xp.png') no-repeat top center;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+}
+.about-header {
+  text-align: center;
+  font-size: 4rem;
+  font-family: 'Montserrat', Arial, sans-serif;
+  color: #0a0a6b;
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+.about-card {
+  max-width: 90%;
+  margin: 0 auto 3rem auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  border: 1px solid #e0e0e0;
+}
+.about-title {
+    color: #07006f;
+    font-family: arial;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 50px;
+}
+.about-text {
+  color: #222;
+  font-size: 1.2rem;
+  margin-bottom: 1.2rem;
+  line-height: 1.7;
+}
+@media (max-width: 600px) {
+  .about-header {
+    font-size: 2.2rem;
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+  .about-card {
+    padding: 1.2rem 0.7rem 1rem 0.7rem;
+  }
+  .about-title {
+    font-size: 1.3rem;
+  }
+  .about-text {
+    font-size: 1rem;
+  }
+}
+
  
