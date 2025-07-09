@@ -29,7 +29,75 @@
     <div class="sidebar-content">
       <img src="../assets/images/profile-pic.jpg" class="user-icon" alt="User" />
       <hr>
-      <p class="login-text">Login</p>
+      <button class="btn" onclick="openModal()">Login</button>
+ 
+      <!-- Modal -->
+<div class="modal-overlay" id="loginModal">
+ <div class="modal-box">
+   <span class="close-btn" onclick="closeModal()">×</span>
+
+   <!-- Tabs -->
+   <div class="tabs" id="authTabs">
+     <button id="loginTab" class="active" onclick="showLogin(event)">Login</button>
+     <button id="registerTab" onclick="showRegister(event)">Register</button>
+   </div>
+
+   <!-- Login Form -->
+   <form id="loginForm" style="display:block;">
+     <label for="login-email" style="font-weight:500; margin-bottom:4px;">Mobile / Email*</label>
+     <input id="login-email" type="text" placeholder="Enter mobile or email" required>
+
+     <label for="login-password" style="font-weight:500; margin-bottom:4px;">Password*</label>
+     <div style="position:relative;">
+       <input id="login-password" type="password" placeholder="Enter password" required>
+
+     </div>
+
+     <div style="display:flex; align-items:center; justify-content:space-between; margin:10px 0 18px 0;">
+       <div>
+         <input type="checkbox" id="remember-me">
+         <label for="remember-me" style="font-size:15px;"> Remember me</label>
+       </div>
+       <a href="#" style="font-size:15px; color:#222; text-decoration:none;">Forgot password ?</a>
+     </div>
+
+     <button type="submit" class="create-btn" style="margin-bottom:12px;">Sign in</button>
+     <button type="button" class="google-btn">
+       <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google"> Sign in with Google
+     </button>
+   </form>
+
+   <!-- Register Form -->
+   <form id="registerForm" style="display:none;">
+     <label for="fname" style="font-weight:500; margin-bottom:4px;">First Name*</label>
+     <input id="fname" type="text" placeholder="First Name" required>
+     <label for="lname" style="font-weight:500; margin-bottom:4px;">Last Name*</label>
+     <input id="lname" type="text" placeholder="Last Name" required>
+     <label for="mail" style="font-weight:500; margin-bottom:4px;">Email*</label>
+     <input id="mail" type="email" placeholder="Email" required>
+     <label for="number" style="font-weight:500; margin-bottom:4px;">Phone*</label>
+     <input id="number" type="tel" placeholder="Phone" required>
+     <label for="pass" style="font-weight:500; margin-bottom:4px;">Password*</label>
+     <div style="position:relative;">
+       <input id="pass" type="password" placeholder="Password" required>
+     </div>
+     <label for="code" style="font-weight:500; margin-bottom:4px;">Promo Code</label>
+     <input id="code" type="text" placeholder="Promo Code">
+     <div class="checkbox" style="margin-bottom:12px;">
+       <input type="checkbox" id="check-input">
+       <label for="check-input">&nbsp;Participate in lucky draw for umrah</label>
+     </div>
+     <button type="submit" class="create-btn" style="margin-bottom:12px;">Register</button>
+     <button type="button" class="google-btn">
+       <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google"> Sign in with Google
+     </button>
+   </form>
+
+   <div class="terms">
+     By creating an account you agree to <a href="#">Terms and Conditions</a>
+   </div>
+ </div>
+</div>
       <hr>
       <a href="index.html" class="menu-btn-outline">HOME</a>
       <a href="chapters.html" class="menu-btn-filled">CHAPTER</a>
@@ -37,25 +105,37 @@
       <a href="editions.html" class="menu-btn-filled">EDITIONS</a>
       <a href="#" class="menu-btn-filled">QIBLA DIRECTION</a>
       <a href="#" class="menu-btn-filled">PRAYER TIMES</a>
+
       <section class="info-section">
         <div class="info-item">
           <div class="info-header">
-            <span class="info-title">About us</span>
+            <a href="about.html">
+              <span class="info-title">&#8250; About us</span>
+            </a>
           </div>
+          
         </div>
         <div class="info-item">
           <div class="info-header">
-            <span class="info-title">Privacy Policy</span>
+            <a href="#">
+              <span class="info-title">&#8250; Privacy Policy</span>
+            </a>
           </div>
+          
         </div>
         <div class="info-item">
           <div class="info-header">
-            <span class="info-title">Terms and Conditions</span>
+            <a href="#">
+              <span class="info-title">&#8250; Terms and Conditions</span>
+            </a>
           </div>
+         
         </div>
         <div class="info-item">
           <div class="info-header">
-            <span class="info-title">Contact us</span>
+            <a href="#">
+              <span class="info-title">&#8250; Contact us</span>
+            </a>
           </div>
         </div>
       </section>

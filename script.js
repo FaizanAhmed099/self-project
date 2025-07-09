@@ -195,3 +195,47 @@ document.addEventListener('DOMContentLoaded', renderSurahCards);
 // }
 document.addEventListener('DOMContentLoaded', renderEditionCards);
 
+
+
+// Pop-up strat section
+function openModal() {
+  document.getElementById("loginModal").style.display = "grid";
+}
+
+function closeModal() {
+  document.getElementById("loginModal").style.display = "none";
+}
+
+// Close when clicking outside the modal
+window.onclick = function(event) {
+  const modal = document.getElementById("loginModal");
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+}
+
+// Modal tab switching and password toggle
+function showLogin(e) {
+  e.preventDefault();
+  document.getElementById('loginTab').classList.add('active');
+  document.getElementById('registerTab').classList.remove('active');
+  document.getElementById('loginForm').style.display = 'block';
+  document.getElementById('registerForm').style.display = 'none';
+}
+function showRegister(e) {
+  e.preventDefault();
+  document.getElementById('registerTab').classList.add('active');
+  document.getElementById('loginTab').classList.remove('active');
+  document.getElementById('registerForm').style.display = 'block';
+  document.getElementById('loginForm').style.display = 'none';
+}
+function togglePassword(inputId, el) {
+  var input = document.getElementById(inputId);
+  if (input.type === 'password') {
+    input.type = 'text';
+    el.style.opacity = 0.6;
+  } else {
+    input.type = 'password';
+    el.style.opacity = 1;
+  }
+}
