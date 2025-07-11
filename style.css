@@ -1922,3 +1922,124 @@ footer {
     min-height: 220px;
   }
 } 
+
+
+/* PRAYER SECTION */
+
+.prayer-box {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 2rem;
+  padding: 3rem 2rem;
+  border-radius: 16px;
+  background-color: #fff;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  flex-wrap: wrap;
+  margin: 3rem auto;
+  max-width: 900px;
+}
+
+.prayer-time {
+  background: linear-gradient(135deg, #f7ce68 60%, #fbb034 100%);
+  min-width: 130px;
+  min-height: 120px;
+  font-size: 1rem;
+  padding: 1.5rem 1.2rem;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.18s, box-shadow 0.18s;
+  margin: 0.5rem 0;
+}
+
+.prayer-time h1 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.prayer-time p {
+  font-size: 1.1rem;
+  color: #6c4a00;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.prayer-time:hover {
+  transform: scale(1.5);
+  box-shadow: 0 6px 224px rgba(247, 206, 104, 0.18);
+  background-image: url("assets/images/icon-bg.png");
+  
+}
+
+
+
+@media (max-width: 900px) {
+  .prayer-box {
+    gap: 1rem;
+    padding: 2rem 0.5rem;
+  }
+  .prayer-time {
+    min-width: 110px;
+    padding: 1.2rem 0.7rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .prayer-box {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 1.2rem 0.2rem;
+  }
+  .prayer-time {
+    width: 90vw;
+    min-width: 0;
+    max-width: 350px;
+    padding: 1rem 0.5rem;
+  }
+}
+
+/* Live Clock Card Section */
+.live-clock-card {
+  background: #22313a;
+  color: #fff;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  max-width: 400px;
+  margin: 0.2rem auto 2rem auto;
+  text-align: center;
+}
+.live-clock-time {
+  font-size: 2.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 0.7rem;
+}
+.live-clock-date {
+  font-size: 1.3rem;
+  margin-bottom: 0.3rem;
+  color: #e0e0e0;
+}
+.live-clock-day {
+  font-size: 1.1rem;
+  color: #7ed6df;
+  font-weight: 500;
+}
+@media (max-width: 600px) {
+  .live-clock-card {
+    padding: 1.2rem 0.5rem 1rem 0.5rem;
+    max-width: 95vw;
+  }
+  .live-clock-time {
+    font-size: 2rem;
+  }
+}

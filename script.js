@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', renderSurahCards);
 //     grid.appendChild(card);
 //   });
 // }
-document.addEventListener('DOMContentLoaded', renderEditionCards);
+// document.addEventListener('DOMContentLoaded', renderEditionCards);
 
 
 
@@ -284,3 +284,33 @@ const KAABA_LAT = 21.4225;
     }, error => {
       document.getElementById("info").innerText = "Location access denied.";
     });
+
+    function updateLiveClockCard() {
+  // Use Indian Standard Time (Asia/Kolkata)
+  const now = new Date();
+
+  // Time in IST
+  const optionsTime = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' };
+  const timeStr = now.toLocaleTimeString('en-US', optionsTime);
+
+  // Date in IST
+  const optionsDate = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Asia/Kolkata' };
+  const dateStr = now.toLocaleDateString('en-US', optionsDate);
+
+  // Day in IST
+  const optionsDay = { weekday: 'long', timeZone: 'Asia/Kolkata' };
+  const dayStr = now.toLocaleDateString('en-US', optionsDay);
+
+  // Set
+  const timeElem = document.getElementById('live-clock-time');
+  const dateElem = document.getElementById('live-clock-date');
+  const dayElem = document.getElementById('live-clock-day');
+  if (timeElem && dateElem && dayElem) {
+    timeElem.textContent = timeStr;
+    dateElem.textContent = dateStr;
+    dayElem.textContent = dayStr;
+  }
+}
+setInterval(updateLiveClockCard, 1000);
+updateLiveClockCard();
+   
