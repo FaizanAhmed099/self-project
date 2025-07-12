@@ -2140,16 +2140,13 @@ footer {
 
     /* Date Section */
 
-    .date-box{
-      margin: 0px 0px 0px 15rem;
-    }
-    .date-box h2 {
-      align-items: center;
-      margin: 0px 0px 0px 0pxssss;
-      font-size: 22px;
-    }
     .hijri {
-      color: #90932b;
+      font-size: 12px;
+      color: #97983c;
+    }
+
+    #sehriTime{
+      color: #97983c;
     }
 
     /* islamic-time */
@@ -2166,22 +2163,6 @@ footer {
       color: #90932b;
     }
 
-.test {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  gap: 2rem; /* Adjust as needed for more/less space between boxes */
-  margin: 2rem 0;
-}
-
-.test .date-box,
-.test .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 /* Optional: Make it stack vertically on small screens */
 @media (max-width: 700px) {
   .test {
@@ -2190,29 +2171,14 @@ footer {
   }
 }
 
-/* Sehri-time */
-
-.sehri-time {
-  max-width: 23rem;
-  margin: auto;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 30px;
-  border-radius: 15px;
+.time-section{
   box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  border-radius: 10px;
 }
-
-.sehri-time h1 {
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: #90932b;
-}
-
-.sehri-time h2 {
-  font-size: 24px;
-  margin: 10px 0;
-}
-
-.sehri-time p {
-  font-size: 16px;
-  color: #9b3b3b;
+.time-box{
+  padding: 15px;
+  display: flex;
+    width: auto;
+    height: 101px;
+    flex-direction: column;
 }

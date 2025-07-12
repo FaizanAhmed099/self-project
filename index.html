@@ -151,20 +151,47 @@
       <span class="logo-arabic">QURAAN</span>
       <span class="logo-english">GPT</span>
     </div>
+    
 
- <div class="test">
-  <div class="date-box">
+    <div style="display: flex; justify-content: center; margin-bottom: 10px; gap: 11rem;">
+     
+      <div class="time-box time-section">
+        <p id="gregorian"><b></b></p>
+        <p id="hijri" class="hijri">Loading Islamic Date...</p>
+      </div>
+      
+      <div class="time-box time-section">
+        <p><b>Khatam-e-Sehri</b></p>
+        <p id="sehriTime">Loading...</p>
+      </div>
+
+      <div class="time-box time-section">
+        <p id="prayerName"><b>Loading...</b></p>
+        <p id="remaining">--:--:--</p>
+      </div>
+    </div>
+
+ <!-- <div class="test">
+  <div class="date-box sehri-time">
     <h6 id="gregorian"></h6>
     <h6 id="hijri" class="hijri">Loading Islamic Date...</h6>
   </div>
 
+  <div class="container mt-5">
+    <div class="sehri-time">
+      <h1>Khatam-e-Sehri</h1>
+      <h2 id="sehriTime">Loading...</h2>
+      
+    </div>
+  </div>
+
   <div class="container">
-    <div class="islamic-time">
+    <div class="islamic-time sehri-time">
       <h6 id="prayerName">Loading...</h6>
       <div id="remaining">--:--:--</div>
     </div>
   </div>
- </div>
+ </div> -->
     
     <div class="modern-search-bar">
       <div class="modern-search-row">
@@ -242,14 +269,6 @@
       </div>
     </template>
 </section>
-
-<div class="container mt-5">
-  <div class="sehri-time">
-    <h1>Khatam-e-Sehri (Astronomical Twilight)</h1>
-    <h2 id="sehriTime">Loading...</h2>
-    <p>According to Fajr at -18° angle (Astronomical Twilight)</p>
-  </div>
-</div>
 
   <!-- Footer -->
   <footer>
