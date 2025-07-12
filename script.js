@@ -313,4 +313,175 @@ const KAABA_LAT = 21.4225;
 }
 setInterval(updateLiveClockCard, 1000);
 updateLiveClockCard();
-   
+
+function showButtons() {
+  // Show Quran text and buttons
+  document.getElementById("quranText").classList.remove("hidden");
+  document.getElementById("extraButtons").classList.remove("hidden");
+  // Hide Hadees text and buttons
+  document.getElementById("hadeesText").classList.add("hidden");
+  document.getElementById("extraButtonssecound").classList.add("hidden");
+}
+
+function showHadeesButtons() {
+  // Hide Quran text and buttons
+  document.getElementById("quranText").classList.add("hidden");
+  document.getElementById("extraButtons").classList.add("hidden");
+  // Show Hadees text and buttons
+  document.getElementById("hadeesText").classList.remove("hidden");
+  document.getElementById("extraButtonssecound").classList.remove("hidden");
+}
+
+// Only show Chapter/Surah buttons when either is clicked
+document.addEventListener('DOMContentLoaded', function() {
+  var chapterBtn = document.getElementById('chapterBtn');
+  var surahBtn = document.getElementById('surahBtn');
+  if (chapterBtn) {
+    chapterBtn.addEventListener('click', function(e) {
+      // Prevent navigation for demo, remove this line in production
+      // e.preventDefault();
+      document.getElementById("quranText").classList.remove("hidden");
+      document.getElementById("extraButtons").classList.remove("hidden");
+      document.getElementById("hadeesText").classList.add("hidden");
+      document.getElementById("extraButtonssecound").classList.add("hidden");
+    });
+  }
+  if (surahBtn) {
+    surahBtn.addEventListener('click', function(e) {
+      // Prevent navigation for demo, remove this line in production
+      // e.preventDefault();
+      document.getElementById("quranText").classList.remove("hidden");
+      document.getElementById("extraButtons").classList.remove("hidden");
+      document.getElementById("hadeesText").classList.add("hidden");
+      document.getElementById("extraButtonssecound").classList.add("hidden");
+    });
+  }
+});
+
+
+// Islamic date 
+
+const now = new Date();
+
+// Gregorian Date
+const gregorianDate = new Intl.DateTimeFormat('en-US', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+}).format(now);
+document.getElementById('gregorian').textContent = gregorianDate;
+
+// Hijri Date
+const hijriDate = new Intl.DateTimeFormat('en-TN-u-ca-islamic', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+}).format(now);
+document.getElementById('hijri').textContent = 'Hijri: ' + hijriDate;
+
+// Prayer time
+
+function getPrayerTimes(lat, lon) {
+  const apiUrl = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`;
+
+  fetch(apiUrl)
+    .then(res => res.json())
+    .then(data => {
+      const times = data.data.timings;
+      const prayerOrder = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+      const now = new Date();
+      let nextPrayer = null;
+      let nextTime = null;
+
+      for (let prayer of prayerOrder) {
+        let [h, m] = times[prayer].split(':').map(Number);
+        const prayerTime = new Date();
+        prayerTime.setHours(h);
+        prayerTime.setMinutes(m);
+        prayerTime.setSeconds(0);
+
+        if (prayerTime > now) {
+          nextPrayer = prayer;
+          nextTime = prayerTime;
+          break;
+        }
+      }
+
+      // If all prayers passed, next is Fajr tomorrow
+      if (!nextPrayer) {
+        let [h, m] = times['Fajr'].split(':').map(Number);
+        const tmr = new Date();
+        tmr.setDate(tmr.getDate() + 1);
+        tmr.setHours(h, m, 0, 0);
+        nextPrayer = 'Fajr';
+        nextTime = tmr;
+      }
+
+      document.getElementById('prayerName').textContent = `Next Prayer: ${nextPrayer}`;
+
+      function updateCountdown() {
+        const now = new Date();
+        const diff = nextTime - now;
+
+        if (diff <= 0) {
+          location.reload(); // reload to get new timings
+          return;
+        }
+
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        document.getElementById('remaining').textContent =
+          `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    });
+}
+
+function init() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        getPrayerTimes(pos.coords.latitude, pos.coords.longitude);
+      },
+      () => {
+        document.getElementById('prayerName').textContent = 'Location permission denied';
+      }
+    );
+  } else {
+    document.getElementById('prayerName').textContent = 'Geolocation not supported';
+  }
+}
+
+init();
+
+// Sehri-time
+
+    // Set your location coordinates here
+    const latitude = 28.6139;  // e.g. Delhi
+    const longitude = 77.2090;
+
+    const coordinates = new adhan.Coordinates(latitude, longitude);
+
+    const params = adhan.CalculationMethod.Other();
+    params.fajrAngle = 18;
+    params.ishaAngle = 18;
+
+    const date = new Date();
+    const prayerTimes = new adhan.PrayerTimes(coordinates, date, params);
+
+    // Format time nicely
+    const formatTime = (date) => {
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    };
+
+    // Insert into the page
+    document.addEventListener("DOMContentLoaded", () => {
+      const sehriTime = formatTime(prayerTimes.fajr);
+      document.getElementById("sehriTime").textContent = sehriTime;
+    });

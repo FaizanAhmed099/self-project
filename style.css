@@ -47,7 +47,7 @@ body {
     color: #a67c2e;
     font-size: 4.2rem;
     margin-right: 0.5rem;
-    line-height: 1;
+    
 }
 .logo-english {
     font-family: 'Montserrat', sans-serif;
@@ -2043,4 +2043,176 @@ footer {
   .live-clock-time {
     font-size: 2rem;
   }
+}
+
+.hidden {
+      display: none;
+    }
+
+    /* .button {
+      background: linear-gradient(to right, #2b2a28, #816d4e);
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 120px;
+    } */
+
+    .dropbtn{
+      background: linear-gradient(to right, #2b2a28, #816d4e);
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 120px;
+      border-radius: 25px;
+    }
+    .dropbtn:hover{
+      background: linear-gradient(to right, #f7ce68, #fbb034);
+      color: #222;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(247, 206, 104, 0.3);
+    }
+
+    .drop-p{
+      font-size: 15px;
+      text-align: center;
+      color: #525050; 
+      margin-top: 1.5rem;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      border-radius: 25px;
+    }
+
+    .button-group-secound{
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .button-group-secound button {
+      background: linear-gradient(to right, #2b2a28, #816d4e);
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      min-width: 120px;
+      
+    }
+
+    .button-group-secound button:hover {
+      background: linear-gradient(to right, #f7ce68, #fbb034);
+      color: #222;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(247, 206, 104, 0.3);
+    }
+
+    @media (max-width: 600px) {
+      .button-group-secound {
+        justify-content: center;
+        gap: 0.3rem;
+      }
+      
+      .button-group-secound button {
+        min-width: 100px;
+        font-size: 12px;
+        padding: 10px 15px;
+      }
+    }
+
+    /* Date Section */
+
+    .date-box{
+      margin: 0px 0px 0px 15rem;
+    }
+    .date-box h2 {
+      align-items: center;
+      margin: 0px 0px 0px 0pxssss;
+      font-size: 22px;
+    }
+    .hijri {
+      color: #90932b;
+    }
+
+    /* islamic-time */
+    .islamic-time{
+      margin: 0px 0px 0px 7rem;
+    
+    }
+    .islamic-time h2 {
+      margin-bottom: 10px;
+    }
+    #remaining {
+      font-size: 24px;
+      font-weight: bold;
+      color: #90932b;
+    }
+
+.test {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 2rem; /* Adjust as needed for more/less space between boxes */
+  margin: 2rem 0;
+}
+
+.test .date-box,
+.test .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Optional: Make it stack vertically on small screens */
+@media (max-width: 700px) {
+  .test {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}
+
+/* Sehri-time */
+
+.sehri-time {
+  max-width: 23rem;
+  margin: auto;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+.sehri-time h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #90932b;
+}
+
+.sehri-time h2 {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.sehri-time p {
+  font-size: 16px;
+  color: #9b3b3b;
 }
