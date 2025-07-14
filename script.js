@@ -383,6 +383,16 @@ document.getElementById('hijri').textContent = 'Hijri: ' + hijriDate;
 
 // Prayer time
 
+// Add a mapping for prayer names in Urdu
+const prayerOrder = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+const prayerNamesUrdu = {
+  'Fajr': 'فجر',
+  'Dhuhr': 'ظہر',
+  'Asr': 'عصر',
+  'Maghrib': 'مغرب',
+  'Isha': 'عشاء'
+};
+
 function getPrayerTimes(lat, lon) {
   const apiUrl = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`;
 
@@ -390,7 +400,7 @@ function getPrayerTimes(lat, lon) {
     .then(res => res.json())
     .then(data => {
       const times = data.data.timings;
-      const prayerOrder = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+      // Use the global prayerOrder
       const now = new Date();
       let nextPrayer = null;
       let nextTime = null;
@@ -421,27 +431,26 @@ function getPrayerTimes(lat, lon) {
 
       document.getElementById('prayerName').textContent = `Next Prayer: ${nextPrayer}`;
 
+      let popupShown = false;
       function updateCountdown() {
         const now = new Date();
         const diff = nextTime - now;
-
-        if (diff <= 0) {
-          alert(`🕌 It's time to pray ${nextPrayer}!`);
-          location.reload(); // reload for next prayer
+        if (diff <= 0 && !popupShown) {
+          // Show both English and Urdu in the popup, loop audio
+          const urdu = prayerNamesUrdu[nextPrayer] || '';
+          showPopupAndPlayAudio(`🕌 It's time to pray ${nextPrayer} (${urdu})!`, true, function onPopupClose() {
+            location.reload(); // reload for next prayer only after popup is closed
+          });
+          popupShown = true;
           return;
         }
-
-        // if (diff <= 0) {
-        //   location.reload(); // reload to get new timings
-        //   return;
-        // }
-
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        document.getElementById('remaining').textContent =
-          `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        if (diff > 0) {
+          const hours = Math.floor(diff / (1000 * 60 * 60));
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+          document.getElementById('remaining').textContent =
+            `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
       }
 
       updateCountdown();
@@ -491,3 +500,128 @@ init();
       const sehriTime = formatTime(prayerTimes.fajr);
       document.getElementById("sehriTime").textContent = sehriTime;
     });
+
+// --- REUSABLE POPUP AND AUDIO FUNCTION ---
+let popupTimer = null;
+let popupIsOpen = false;
+let popupAudio = null;
+
+function showPopupAndPlayAudio(message, loopAudio = false, onClose = null) {
+  const popup = document.getElementById('thirtySecPopup');
+  const popupMsg = popup ? popup.querySelector('p') : null;
+  const okBtn = popup ? popup.querySelector('button') : null;
+  // Stop any previous audio
+  if (popupAudio) {
+    popupAudio.pause();
+    popupAudio.currentTime = 0;
+  }
+  popupAudio = new Audio('assets/Audio/alert-2.mp3');
+  if (loopAudio) popupAudio.loop = true;
+  if (popup && popupMsg && okBtn) {
+    if (message) {
+      popupMsg.textContent = message;
+    } else {
+      popupMsg.textContent = 'Time for a break!';
+    }
+    popup.style.display = 'block';
+    popupIsOpen = true;
+    // Play audio instantly
+    popupAudio.currentTime = 0;
+    popupAudio.play();
+    // Remove any previous click listeners
+    okBtn.onclick = null;
+    okBtn.textContent = 'OK';
+    okBtn.style.minWidth = '80px';
+    okBtn.style.padding = '0.5rem 1.5rem';
+    okBtn.style.background = '#198754';
+    okBtn.style.color = '#fff';
+    okBtn.style.borderRadius = '5px';
+    okBtn.style.fontSize = '1rem';
+    okBtn.style.cursor = 'pointer';
+    okBtn.onclick = function() {
+      // Stop audio immediately
+      if (popupAudio) {
+        popupAudio.pause();
+        popupAudio.currentTime = 0;
+        popupAudio.loop = false;
+      }
+      popup.style.display = 'none';
+      popupIsOpen = false;
+      if (typeof onClose === 'function') onClose();
+      restartPopupTimer();
+    };
+  }
+}
+
+function restartPopupTimer() {
+  if (popupTimer) clearTimeout(popupTimer);
+  popupTimer = setTimeout(() => {
+    if (!popupIsOpen) {
+      showPopupAndPlayAudio('Time for a break!');
+    }
+  }, 3000);
+}
+
+// --- DUMMY TEST FUNCTION FOR 3-SECOND POPUP ---
+// function startDummyPopupEvery3Seconds() {
+//   let idx = 0;
+//   let autoCloseTimer = null;
+//   let audioTimer = null;
+//
+//   function showNextPrayerPopup() {
+//     const prayer = prayerOrder[idx % prayerOrder.length];
+//     const urdu = prayerNamesUrdu[prayer] || '';
+//     showPopupAndPlayAudio(`🕌 It's time to pray ${prayer} (${urdu})!`);
+//     idx++;
+//     // Auto-close after 10 seconds if not closed manually
+//     if (autoCloseTimer) clearTimeout(autoCloseTimer);
+//     autoCloseTimer = setTimeout(() => {
+//       // Stop audio and close popup if still open
+//       if (popupAudio) {
+//         popupAudio.pause();
+//         popupAudio.currentTime = 0;
+//       }
+//       const popup = document.getElementById('thirtySecPopup');
+//       if (popup && popup.style.display !== 'none') {
+//         popup.style.display = 'none';
+//         popupIsOpen = false;
+//         // Show next popup after 3 seconds
+//         setTimeout(showNextPrayerPopup, 3000);
+//       }
+//     }, 10000);
+//     // Ensure audio plays for up to 10 seconds
+//     if (audioTimer) clearTimeout(audioTimer);
+//     if (popupAudio) {
+//       popupAudio.currentTime = 0;
+//       popupAudio.play();
+//       audioTimer = setTimeout(() => {
+//         if (popupAudio) {
+//           popupAudio.pause();
+//           popupAudio.currentTime = 0;
+//         }
+//       }, 10000);
+//     }
+//     // Patch the OK button to also show next popup after 3 seconds
+//     const popup = document.getElementById('thirtySecPopup');
+//     const okBtn = popup ? popup.querySelector('button') : null;
+//     if (okBtn) {
+//       okBtn.onclick = function() {
+//         if (popupAudio) {
+//           popupAudio.pause();
+//           popupAudio.currentTime = 0;
+//         }
+//         popup.style.display = 'none';
+//         popupIsOpen = false;
+//         if (autoCloseTimer) clearTimeout(autoCloseTimer);
+//         if (audioTimer) clearTimeout(audioTimer);
+//         setTimeout(showNextPrayerPopup, 3000);
+//       };
+//     }
+//   }
+//   // Start the first popup
+//   showNextPrayerPopup();
+// }
+// document.addEventListener('DOMContentLoaded', function() {
+//   startDummyPopupEvery3Seconds();
+// });
+// Real prayer time popup logic is already implemented in getPrayerTimes and showPopupAndPlayAudio.

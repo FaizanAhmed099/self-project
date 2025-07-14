@@ -617,8 +617,8 @@ footer {
             align-items: flex-end;
             justify-content: center;
             gap: 1.2rem;
-            margin-bottom: 2.5rem;
-            font-size: 4rem;
+            /* margin-bottom: 2.5rem;
+            font-size: 4rem; */
             font-weight: 700;
             letter-spacing: 2px;
     }
