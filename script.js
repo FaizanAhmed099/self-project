@@ -407,7 +407,7 @@ function getPrayerTimes(lat, lon) {
       if (window._testPrayerIdx !== undefined) {
         nextPrayer = prayerOrder[window._testPrayerIdx % prayerOrder.length];
         nextTime = new Date(Date.now() + 10000); // 10 seconds from now
-        window._testPrayerIdx++;
+        // window._testPrayerIdx++; // Move this to after popup close
       } else {
         // --- Real logic ---
         for (let prayer of prayerOrder) {
@@ -444,6 +444,7 @@ function getPrayerTimes(lat, lon) {
           showPopupAndPlayAudio(`🕌 It's time to pray ${nextPrayer} (${urdu})!`, true, function onPopupClose() {
             // For test mode: update the prayer name after closing
             if (window._testPrayerIdx !== undefined) {
+              window._testPrayerIdx++;
               getPrayerTimes(0, 0);
               return;
             }
