@@ -393,6 +393,9 @@ const prayerNamesUrdu = {
   'Isha': 'عشاء'
 };
 
+// For test mode: keep the prayer index global
+window._testPrayerIdx = window._testPrayerIdx || 0;
+
 function getPrayerTimes(lat, lon) {
   const apiUrl = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`;
 
@@ -400,37 +403,37 @@ function getPrayerTimes(lat, lon) {
     .then(res => res.json())
     .then(data => {
       const times = data.data.timings;
-      // Use the global prayerOrder
-      const now = new Date();
-      let nextPrayer = null;
-      let nextTime = null;
+      // For testing: cycle through prayerOrder for each popup
+      if (window._testPrayerIdx !== undefined) {
+        nextPrayer = prayerOrder[window._testPrayerIdx % prayerOrder.length];
+        nextTime = new Date(Date.now() + 10000); // 10 seconds from now
+        window._testPrayerIdx++;
+      } else {
+        // --- Real logic ---
+        for (let prayer of prayerOrder) {
+          let [h, m] = times[prayer].split(':').map(Number);
+          const prayerTime = new Date();
+          prayerTime.setHours(h);
+          prayerTime.setMinutes(m);
+          prayerTime.setSeconds(0);
 
-      for (let prayer of prayerOrder) {
-        let [h, m] = times[prayer].split(':').map(Number);
-        const prayerTime = new Date();
-        prayerTime.setHours(h);
-        prayerTime.setMinutes(m);
-        prayerTime.setSeconds(0);
-
-        if (prayerTime > now) {
-          nextPrayer = prayer;
-          nextTime = prayerTime;
-          break;
+          if (prayerTime > now) {
+            nextPrayer = prayer;
+            nextTime = prayerTime;
+            break;
+          }
+        }
+        // If all prayers passed, next is Fajr tomorrow
+        if (!nextPrayer) {
+          let [h, m] = times['Fajr'].split(':').map(Number);
+          const tmr = new Date();
+          tmr.setDate(tmr.getDate() + 1);
+          tmr.setHours(h, m, 0, 0);
+          nextPrayer = 'Fajr';
+          nextTime = tmr;
         }
       }
-
-      // If all prayers passed, next is Fajr tomorrow
-      if (!nextPrayer) {
-        let [h, m] = times['Fajr'].split(':').map(Number);
-        const tmr = new Date();
-        tmr.setDate(tmr.getDate() + 1);
-        tmr.setHours(h, m, 0, 0);
-        nextPrayer = 'Fajr';
-        nextTime = tmr;
-      }
-
       document.getElementById('prayerName').textContent = `Next Prayer: ${nextPrayer}`;
-
       let popupShown = false;
       function updateCountdown() {
         const now = new Date();
@@ -439,6 +442,11 @@ function getPrayerTimes(lat, lon) {
           // Show both English and Urdu in the popup, loop audio
           const urdu = prayerNamesUrdu[nextPrayer] || '';
           showPopupAndPlayAudio(`🕌 It's time to pray ${nextPrayer} (${urdu})!`, true, function onPopupClose() {
+            // For test mode: update the prayer name after closing
+            if (window._testPrayerIdx !== undefined) {
+              getPrayerTimes(0, 0);
+              return;
+            }
             location.reload(); // reload for next prayer only after popup is closed
           });
           popupShown = true;
@@ -452,7 +460,6 @@ function getPrayerTimes(lat, lon) {
             `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
       }
-
       updateCountdown();
       setInterval(updateCountdown, 1000);
     });
@@ -548,6 +555,12 @@ function showPopupAndPlayAudio(message, loopAudio = false, onClose = null) {
       popup.style.display = 'none';
       popupIsOpen = false;
       if (typeof onClose === 'function') onClose();
+      // For test mode: trigger next countdown without reload
+      if (window._testPrayerIdx !== undefined) {
+        // Re-run getPrayerTimes with dummy location to cycle
+        getPrayerTimes(0, 0);
+        return;
+      }
       restartPopupTimer();
     };
   }
