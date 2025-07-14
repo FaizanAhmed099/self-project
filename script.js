@@ -259,7 +259,10 @@ const KAABA_LAT = 21.4225;
     }
 
     function rotateArrow(angle) {
-      document.getElementById("arrow").style.transform = `translateX(-50%) rotate(${angle}deg)`;
+      const arrowElem = document.getElementById("arrow");
+      if (arrowElem) {
+        arrowElem.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+      }
     }
 
     navigator.geolocation.getCurrentPosition(position => {
@@ -267,7 +270,10 @@ const KAABA_LAT = 21.4225;
       const userLng = position.coords.longitude;
       const qiblaAngle = getQiblaAngle(userLat, userLng);
 
-      document.getElementById("info").innerHTML = `Qibla Angle: ${qiblaAngle.toFixed(2)}° from North`;
+      const infoElem = document.getElementById("info");
+      if (infoElem) {
+        infoElem.innerHTML = `Qibla Angle: ${qiblaAngle.toFixed(2)}° from North`;
+      }
 
       if (window.DeviceOrientationEvent) {
         window.addEventListener("deviceorientationabsolute", handleOrientation, true);
@@ -279,10 +285,16 @@ const KAABA_LAT = 21.4225;
           rotateArrow(angle);
         }
       } else {
-        document.getElementById("info").innerHTML += "<br>Compass not supported on this device.";
+        const infoElem = document.getElementById("info");
+        if (infoElem) {
+          infoElem.innerHTML += "<br>Compass not supported on this device.";
+        }
       }
     }, error => {
-      document.getElementById("info").innerText = "Location access denied.";
+      const infoElem = document.getElementById("info");
+      if (infoElem) {
+        infoElem.innerText = "Location access denied.";
+      }
     });
 
     function updateLiveClockCard() {
@@ -398,64 +410,89 @@ const prayerNamesUrdu = {
 window._testPrayerIdx = window._testPrayerIdx || 0;
 */
 
-function getPrayerTimes(lat, lon) {
-  const apiUrl = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`;
+function getBrowserTimezone() {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
+
+function getPrayerTimes(lat, lon, country = null, zipcode = null) {
+  let apiUrl = 'https://www.islamicfinder.us/index.php/api/prayer_times?format=json';
+  if (lat != null && lon != null) {
+    apiUrl += `&latitude=${lat}&longitude=${lon}&timezone=${encodeURIComponent(getBrowserTimezone())}`;
+  } else if (country && zipcode) {
+    apiUrl += `&country=${encodeURIComponent(country)}&zipcode=${encodeURIComponent(zipcode)}`;
+  } else {
+    // fallback: try to use IP-based detection (not implemented here)
+  }
 
   fetch(apiUrl)
     .then(res => res.json())
     .then(data => {
-      const times = data.data.timings;
-      // For testing: cycle through prayerOrder for each popup
-      /*
-      if (window._testPrayerIdx !== undefined) {
-        nextPrayer = prayerOrder[window._testPrayerIdx % prayerOrder.length];
-        nextTime = new Date(Date.now() + 10000); // 10 seconds from now
-        // window._testPrayerIdx++; // Move this to after popup close
-      } else {
-      */
-        // --- Real logic ---
-        
-        for (let prayer of prayerOrder) {
-          let [h, m] = times[prayer].split(':').map(Number);
-          const prayerTime = new Date();
-          prayerTime.setHours(h);
-          prayerTime.setMinutes(m);
-          prayerTime.setSeconds(0);
-
-          if (prayerTime > now) {
-            nextPrayer = prayer;
-            nextTime = prayerTime;
-            break;
-          }
+      console.log('Prayer API response:', data); // Debug log
+      // The API returns times in data.results
+      const times = data.results;
+      if (!times) {
+        document.getElementById('prayerName').textContent = 'Prayer times not available (bad API response)';
+        return;
+      }
+      // Map API keys to our expected keys
+      const mappedTimes = {
+        Fajr: times.Fajr || times.fajr,
+        Dhuhr: times.Dhuhr || times.dhuhr || times.Zuhr || times.zuhr,
+        Asr: times.Asr || times.asr,
+        Maghrib: times.Maghrib || times.maghrib,
+        Isha: times.Isha || times.isha
+      };
+      // Fill in the prayer times table
+      if (document.getElementById('ptFajr')) document.getElementById('ptFajr').textContent = mappedTimes.Fajr || '-';
+      if (document.getElementById('ptDhuhr')) document.getElementById('ptDhuhr').textContent = mappedTimes.Dhuhr || '-';
+      if (document.getElementById('ptAsr')) document.getElementById('ptAsr').textContent = mappedTimes.Asr || '-';
+      if (document.getElementById('ptMaghrib')) document.getElementById('ptMaghrib').textContent = mappedTimes.Maghrib || '-';
+      if (document.getElementById('ptIsha')) document.getElementById('ptIsha').textContent = mappedTimes.Isha || '-';
+      const now = new Date();
+      let nextPrayer = null;
+      let nextTime = null;
+      for (let prayer of prayerOrder) {
+        let t = mappedTimes[prayer];
+        if (!t) continue;
+        // Parse time (API returns e.g. 4:01 %pm%)
+        t = t.replace(/%/g, '').replace(/\s+/g, '');
+        let [hm, ampm] = t.split(/(am|pm|AM|PM)/i);
+        let [h, m] = hm.split(':').map(Number);
+        if (/pm/i.test(ampm) && h < 12) h += 12;
+        if (/am/i.test(ampm) && h === 12) h = 0;
+        const prayerTime = new Date(now);
+        prayerTime.setHours(h);
+        prayerTime.setMinutes(m);
+        prayerTime.setSeconds(0);
+        if (prayerTime > now) {
+          nextPrayer = prayer;
+          nextTime = prayerTime;
+          break;
         }
-        // If all prayers passed, next is Fajr tomorrow
-        if (!nextPrayer) {
-          let [h, m] = times['Fajr'].split(':').map(Number);
-          const tmr = new Date();
-          tmr.setDate(tmr.getDate() + 1);
-          tmr.setHours(h, m, 0, 0);
-          nextPrayer = 'Fajr';
-          nextTime = tmr;
-        }
-      // }
+      }
+      // If all prayers passed, next is Fajr tomorrow
+      if (!nextPrayer) {
+        let t = mappedTimes['Fajr'];
+        t = t.replace(/%/g, '').replace(/\s+/g, '');
+        let [hm, ampm] = t.split(/(am|pm|AM|PM)/i);
+        let [h, m] = hm.split(':').map(Number);
+        if (/pm/i.test(ampm) && h < 12) h += 12;
+        if (/am/i.test(ampm) && h === 12) h = 0;
+        const tmr = new Date(now);
+        tmr.setDate(tmr.getDate() + 1);
+        tmr.setHours(h, m, 0, 0);
+        nextPrayer = 'Fajr';
+        nextTime = tmr;
+      }
       document.getElementById('prayerName').textContent = `Next Prayer: ${nextPrayer}`;
       let popupShown = false;
       function updateCountdown() {
         const now = new Date();
         const diff = nextTime - now;
         if (diff <= 0 && !popupShown) {
-          // Show both English and Urdu in the popup, loop audio
           const urdu = prayerNamesUrdu[nextPrayer] || '';
           showPopupAndPlayAudio(`🕌 It's time to pray ${nextPrayer} (${urdu})!`, true, function onPopupClose() {
-            // For test mode: update the prayer name after closing
-            /*
-            if (window._testPrayerIdx !== undefined) {
-              window._testPrayerIdx++;
-              getPrayerTimes(0, 0);
-              return;
-            }
-            */
-            location.reload(); // reload for next prayer only after popup is closed
+            location.reload();
           });
           popupShown = true;
           return;
@@ -470,6 +507,26 @@ function getPrayerTimes(lat, lon) {
       }
       updateCountdown();
       setInterval(updateCountdown, 1000);
+    })
+    .catch((err) => {
+      document.getElementById('prayerName').textContent = 'Prayer times not available (API/network error)';
+      console.error('Prayer API error:', err);
+    });
+}
+
+function fetchLocationByIPAndGetPrayerTimes() {
+  fetch('https://ipapi.co/json/')
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.latitude && data.longitude) {
+        getPrayerTimes(data.latitude, data.longitude);
+        document.getElementById('prayerName').textContent = `Using location from IP: ${data.city || ''}, ${data.country_name || ''}`;
+      } else {
+        document.getElementById('prayerName').textContent = 'Could not determine location from IP.';
+      }
+    })
+    .catch(() => {
+      document.getElementById('prayerName').textContent = 'Could not determine location from IP.';
     });
 }
 
@@ -480,11 +537,13 @@ function init() {
         getPrayerTimes(pos.coords.latitude, pos.coords.longitude);
       },
       () => {
-        document.getElementById('prayerName').textContent = 'Location permission denied';
+        // fallback: use IP-based location
+        fetchLocationByIPAndGetPrayerTimes();
       }
     );
   } else {
-    document.getElementById('prayerName').textContent = 'Geolocation not supported';
+    // fallback: use IP-based location
+    fetchLocationByIPAndGetPrayerTimes();
   }
 }
 

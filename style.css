@@ -1163,6 +1163,9 @@ footer {
     .time-box p{
       font-size: 5px ;
     }
+    .prayer-names{
+      gap: 0rem !important;
+    }
      
 }
 
@@ -1178,6 +1181,9 @@ footer {
   }
   .chapters-grid{
     grid-template-columns: 1fr !important;
+  }
+  .time-box{
+    padding: 8px !important;
   }
 }
 
@@ -1223,6 +1229,9 @@ footer {
   }
   .time-box p{
     font-size: 11px;
+  }
+  .prayer-names{
+    gap: 0rem !important;
   }
   
 }
@@ -2201,4 +2210,7 @@ footer {
   width: auto;
   height: 101px;
   flex-direction: column;
+}
+.prayer-names{
+  display: flex; justify-content: center; gap: 3rem;
 }
