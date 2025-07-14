@@ -426,9 +426,15 @@ function getPrayerTimes(lat, lon) {
         const diff = nextTime - now;
 
         if (diff <= 0) {
-          location.reload(); // reload to get new timings
+          alert(`🕌 It's time to pray ${nextPrayer}!`);
+          location.reload(); // reload for next prayer
           return;
         }
+
+        // if (diff <= 0) {
+        //   location.reload(); // reload to get new timings
+        //   return;
+        // }
 
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));

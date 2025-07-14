@@ -37,7 +37,6 @@ body {
     align-items: flex-end;
     justify-content: center;
     gap: 1.2rem;
-    margin-bottom: 2.5rem;
     font-size: 4rem;
     font-weight: 700;
     letter-spacing: 2px;
@@ -586,6 +585,9 @@ footer {
     }
     .top-bar{
       width: 85% !important;
+    }
+    .date-time{
+      gap: 5rem !important;
     }
 }
 
@@ -1158,6 +1160,9 @@ footer {
     .chapter-breadcrumb-row{
       white-space: nowrap;
     }
+    .time-box p{
+      font-size: 5px ;
+    }
      
 }
 
@@ -1212,6 +1217,12 @@ footer {
   }
   .modal-box-surahs .tabs{
     margin: 2.5rem 0px 2.5rem 0px;
+  }
+  .date-time{
+    gap: 0.2rem !important;
+  }
+  .time-box p{
+    font-size: 11px;
   }
   
 }
@@ -2138,6 +2149,15 @@ footer {
       }
     }
 
+    /* date-time */
+
+    .date-time{
+      display: flex; 
+      justify-content: center; 
+      margin-bottom: 10px; 
+      gap: 11rem;
+    }
+
     /* Date Section */
 
     .hijri {
@@ -2178,7 +2198,7 @@ footer {
 .time-box{
   padding: 15px;
   display: flex;
-    width: auto;
-    height: 101px;
-    flex-direction: column;
+  width: auto;
+  height: 101px;
+  flex-direction: column;
 }
