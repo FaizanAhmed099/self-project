@@ -394,7 +394,9 @@ const prayerNamesUrdu = {
 };
 
 // For test mode: keep the prayer index global
+/*
 window._testPrayerIdx = window._testPrayerIdx || 0;
+*/
 
 function getPrayerTimes(lat, lon) {
   const apiUrl = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`;
@@ -404,12 +406,15 @@ function getPrayerTimes(lat, lon) {
     .then(data => {
       const times = data.data.timings;
       // For testing: cycle through prayerOrder for each popup
+      /*
       if (window._testPrayerIdx !== undefined) {
         nextPrayer = prayerOrder[window._testPrayerIdx % prayerOrder.length];
         nextTime = new Date(Date.now() + 10000); // 10 seconds from now
         // window._testPrayerIdx++; // Move this to after popup close
       } else {
+      */
         // --- Real logic ---
+        
         for (let prayer of prayerOrder) {
           let [h, m] = times[prayer].split(':').map(Number);
           const prayerTime = new Date();
@@ -432,7 +437,7 @@ function getPrayerTimes(lat, lon) {
           nextPrayer = 'Fajr';
           nextTime = tmr;
         }
-      }
+      // }
       document.getElementById('prayerName').textContent = `Next Prayer: ${nextPrayer}`;
       let popupShown = false;
       function updateCountdown() {
@@ -443,11 +448,13 @@ function getPrayerTimes(lat, lon) {
           const urdu = prayerNamesUrdu[nextPrayer] || '';
           showPopupAndPlayAudio(`🕌 It's time to pray ${nextPrayer} (${urdu})!`, true, function onPopupClose() {
             // For test mode: update the prayer name after closing
+            /*
             if (window._testPrayerIdx !== undefined) {
               window._testPrayerIdx++;
               getPrayerTimes(0, 0);
               return;
             }
+            */
             location.reload(); // reload for next prayer only after popup is closed
           });
           popupShown = true;
@@ -556,12 +563,6 @@ function showPopupAndPlayAudio(message, loopAudio = false, onClose = null) {
       popup.style.display = 'none';
       popupIsOpen = false;
       if (typeof onClose === 'function') onClose();
-      // For test mode: trigger next countdown without reload
-      if (window._testPrayerIdx !== undefined) {
-        // Re-run getPrayerTimes with dummy location to cycle
-        getPrayerTimes(0, 0);
-        return;
-      }
       restartPopupTimer();
     };
   }
