@@ -415,34 +415,27 @@ function getBrowserTimezone() {
 }
 
 function getPrayerTimes(lat, lon, country = null, zipcode = null) {
-  let apiUrl = 'https://www.islamicfinder.us/index.php/api/prayer_times?format=json';
-  if (lat != null && lon != null) {
-    apiUrl += `&latitude=${lat}&longitude=${lon}&timezone=${encodeURIComponent(getBrowserTimezone())}`;
-  } else if (country && zipcode) {
-    apiUrl += `&country=${encodeURIComponent(country)}&zipcode=${encodeURIComponent(zipcode)}`;
-  } else {
-    // fallback: try to use IP-based detection (not implemented here)
-  }
+  // Use Aladhan API
+  let apiUrl = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`;
 
   fetch(apiUrl)
     .then(res => res.json())
     .then(data => {
-      console.log('Prayer API response:', data); // Debug log
-      // The API returns times in data.results
-      const times = data.results;
+      // Aladhan returns timings in data.data.timings
+      const times = data.data && data.data.timings ? data.data.timings : null;
       if (!times) {
         document.getElementById('prayerName').textContent = 'Prayer times not available (bad API response)';
         return;
       }
       // Map API keys to our expected keys
       const mappedTimes = {
-        Fajr: times.Fajr || times.fajr,
-        Dhuhr: times.Dhuhr || times.dhuhr || times.Zuhr || times.zuhr,
-        Asr: times.Asr || times.asr,
-        Maghrib: times.Maghrib || times.maghrib,
-        Isha: times.Isha || times.isha
+        Fajr: times.Fajr,
+        Dhuhr: times.Dhuhr,
+        Asr: times.Asr,
+        Maghrib: times.Maghrib,
+        Isha: times.Isha
       };
-      // Fill in the prayer times table
+      // Fill in the prayer times table (if you have these elements)
       if (document.getElementById('ptFajr')) document.getElementById('ptFajr').textContent = mappedTimes.Fajr || '-';
       if (document.getElementById('ptDhuhr')) document.getElementById('ptDhuhr').textContent = mappedTimes.Dhuhr || '-';
       if (document.getElementById('ptAsr')) document.getElementById('ptAsr').textContent = mappedTimes.Asr || '-';
@@ -454,12 +447,8 @@ function getPrayerTimes(lat, lon, country = null, zipcode = null) {
       for (let prayer of prayerOrder) {
         let t = mappedTimes[prayer];
         if (!t) continue;
-        // Parse time (API returns e.g. 4:01 %pm%)
-        t = t.replace(/%/g, '').replace(/\s+/g, '');
-        let [hm, ampm] = t.split(/(am|pm|AM|PM)/i);
-        let [h, m] = hm.split(':').map(Number);
-        if (/pm/i.test(ampm) && h < 12) h += 12;
-        if (/am/i.test(ampm) && h === 12) h = 0;
+        // Parse time (API returns e.g. 04:01)
+        let [h, m] = t.split(':').map(Number);
         const prayerTime = new Date(now);
         prayerTime.setHours(h);
         prayerTime.setMinutes(m);
@@ -473,11 +462,7 @@ function getPrayerTimes(lat, lon, country = null, zipcode = null) {
       // If all prayers passed, next is Fajr tomorrow
       if (!nextPrayer) {
         let t = mappedTimes['Fajr'];
-        t = t.replace(/%/g, '').replace(/\s+/g, '');
-        let [hm, ampm] = t.split(/(am|pm|AM|PM)/i);
-        let [h, m] = hm.split(':').map(Number);
-        if (/pm/i.test(ampm) && h < 12) h += 12;
-        if (/am/i.test(ampm) && h === 12) h = 0;
+        let [h, m] = t.split(':').map(Number);
         const tmr = new Date(now);
         tmr.setDate(tmr.getDate() + 1);
         tmr.setHours(h, m, 0, 0);
@@ -641,7 +626,7 @@ function restartPopupTimer() {
 //   let idx = 0;
 //   let autoCloseTimer = null;
 //   let audioTimer = null;
-//
+
 //   function showNextPrayerPopup() {
 //     const prayer = prayerOrder[idx % prayerOrder.length];
 //     const urdu = prayerNamesUrdu[prayer] || '';
@@ -699,3 +684,6 @@ function restartPopupTimer() {
 //   startDummyPopupEvery3Seconds();
 // });
 // Real prayer time popup logic is already implemented in getPrayerTimes and showPopupAndPlayAudio.
+
+
+

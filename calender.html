@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <title>Islamic Calender - CodeQlik</title>
+</head>
+<style>
+  
+
+  .header h1 {
+      margin: 0;
+      font-size: 42px;
+      color: white;
+      text-shadow: 1px 1px 3px #444;
+    }
+
+    .header h3 {
+      margin-top: 5px;
+      font-weight: normal;
+      font-size: 18px;
+      color: black;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 12px;
+      padding: 20px;
+      width: 100vw;
+      max-width: 100vw;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .day-name {
+      font-weight: bold;
+      color: #2b2b2b;
+      background: #d1e0f0;
+      padding: 8px 0;
+      border-radius: 6px;
+      text-align: center;
+      width: 9rem;
+      margin: 0 auto;
+      box-sizing: border-box;
+    }
+
+    .date-box {
+      background: #fff;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      padding: 10px 5px;
+      min-height: 60px;
+      font-size: 14px;
+      position: relative;
+      width: 9rem;
+      max-width: 100%;
+      box-sizing: border-box;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .date-box.highlight {
+      border: 2px solid red;
+      color: red;
+      font-weight: bold;
+    }
+
+    .gregorian {
+      font-size: 16px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    .hijri {
+      font-size: 12px;
+      color: #555;
+      margin-top: 5px;
+    }
+
+    .festival {
+      color: green;
+      font-size: 12px;
+      margin-top: 4px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .date-box.highlight {
+      border: 2px solid #1e7e34;
+      color: #1e7e34;
+      font-weight: bold;
+      background: #eaffea;
+    }
+    .date-box.today {
+      border: 2px solid #007bff;
+      background: #e3f0ff;
+      color: #007bff;
+      font-weight: bold;
+      position: relative;
+    }
+    .date-box.today::after {
+      content: 'Today';
+      position: absolute;
+      top: 4px;
+      right: 8px;
+      background: #007bff;
+      color: #fff;
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .festival-list-box {
+      background: #fffbe6;
+      border: 2px solid #ffe066;
+      border-radius: 12px;
+      margin: 2rem auto 1rem auto;
+      padding: 1.5rem 2rem;
+      max-width: 900px;
+      box-shadow: 0 2px 12px rgba(255, 224, 102, 0.15);
+    }
+    .festival-list-box h2 {
+      color: #bfa003;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .festival-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .festival-list li {
+      margin-bottom: 1rem;
+      padding: 0.7rem 1rem;
+      background: #fffde7;
+      border-left: 5px solid #ffe066;
+      border-radius: 6px;
+      font-size: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .festival-list .festival-name {
+      font-weight: bold;
+      color: #1e7e34;
+      font-size: 1.08rem;
+    }
+    .festival-list .festival-date {
+      color: #555;
+      font-size: 0.98rem;
+    }
+
+    @media (max-width: 1100px) {
+      .calendar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .date-box, .day-name {
+        width: 95vw;
+        min-width: 0;
+        max-width: 100vw;
+      }
+      .festival-list-box {
+        max-width: 98vw;
+        padding: 1rem 0.5rem;
+      }
+    }
+    @media (max-width: 600px) {
+      .calendar {
+        grid-template-columns: 1fr;
+      }
+      .date-box, .day-name {
+        width: 98vw;
+        min-width: 0;
+        max-width: 100vw;
+      }
+      .festival-list-box {
+        max-width: 99vw;
+        padding: 0.7rem 0.2rem;
+      }
+    }
+</style>
+<body>
+  <!-- Video Background -->
+  <video class="bg-video" autoplay loop muted playsinline poster="https://www.qurangpt.com/assets/video-cover-BA9MBhyQ.jpg">
+    <source src="https://www.qurangpt.com/assets/bg-BM5qRW6F.mp4" type="video/mp4">
+  </video>
+
+  <!-- Navbar/Menu and Back Button Row -->
+  <div class="top-bar">
+    <a href="index.html" class="back-btn">&#8592; <b>Back to Home</b></a>
+    <button class="menu-btn" id="menuToggle">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="close-icon">✕</span>
+    </button>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar-right" id="sidebar">
+    <button class="sidebar-close-btn" id="sidebarClose">✕</button>
+    <div class="sidebar-content">
+      <img src="../assets/images/profile-pic.jpg" class="user-icon" alt="User" />
+      <hr>
+      <button style="margin: 0.5rem;" class="btn" onclick="openModal()">Login</button>
+
+      <!-- Modal -->
+      <div class="modal-overlay modal-overlay-surahs" id="loginModal">
+        <div class="modal-box-surahs">
+          <span class="close-btn" onclick="closeModal()">×</span>
+          <!-- Tabs -->
+          <div class="tabs" id="authTabs">
+            <button id="loginTab" class="active" onclick="showLogin(event)">Login</button>
+            <button id="registerTab" onclick="showRegister(event)">Register</button>
+          </div>
+          <!-- Login Form -->
+          <form id="loginForm" style="display:block;">
+            <label for="login-email" style="font-weight:500; margin-bottom:4px;">Mobile / Email*</label>
+            <input id="login-email" type="text" placeholder="Enter mobile or email" required>
+            <label for="login-password" style="font-weight:500; margin-bottom:4px;">Password*</label>
+            <div style="position:relative;">
+              <input id="login-password" type="password" placeholder="Enter password" required>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin:10px 0 18px 0;">
+              <div>
+                <input type="checkbox" id="remember-me">
+                <label for="remember-me" style="display: contents;"> Remember me</label>
+              </div>
+              <a href="#" style="font-size:15px; color:#222; text-decoration:none;">Forgot password ?</a>
+            </div>
+            <button type="submit" class="create-btn" style="margin-bottom:12px;">Sign in</button>
+            <button type="button" class="google-btn">
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google"> Sign in with Google
+            </button>
+          </form>
+          <!-- Register Form -->
+          <form id="registerForm" style="display:none;">
+            <label for="fname" style="font-weight:500; margin-bottom:4px;">First Name*</label>
+            <input id="fname" type="text" placeholder="First Name" required>
+            <label for="lname" style="font-weight:500; margin-bottom:4px;">Last Name*</label>
+            <input id="lname" type="text" placeholder="Last Name" required>
+            <label for="mail" style="font-weight:500; margin-bottom:4px;">Email*</label>
+            <input id="mail" type="email" placeholder="Email" required>
+            <label for="number" style="font-weight:500; margin-bottom:4px;">Phone*</label>
+            <input id="number" type="tel" placeholder="Phone" required>
+            <label for="pass" style="font-weight:500; margin-bottom:4px;">Password*</label>
+            <div style="position:relative;">
+              <input id="pass" type="password" placeholder="Password" required>
+            </div>
+            <label for="code" style="font-weight:500; margin-bottom:4px;">Promo Code</label>
+            <input id="code" type="text" placeholder="Promo Code">
+            <div class="checkbox" style="margin-bottom:12px;">
+              <input type="checkbox" id="check-input">
+              <label for="check-input">Participate in lucky draw for umrah</label>
+            </div>
+            <button type="submit" class="create-btn" style="margin-bottom:12px;">Register</button>
+            <button type="button" class="google-btn">
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google"> Sign in with Google
+            </button>
+          </form>
+          <div class="terms">
+            By creating an account you agree to <a href="#">Terms and Conditions</a>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <a href="index.html" class="menu-btn-outline">HOME</a>
+      <a href="chapters.html" class="menu-btn-filled">CHAPTER</a>
+      <a href="surahs.html" class="menu-btn-filled">SURAH</a>
+      <a href="editions.html" class="menu-btn-filled">EDITIONS</a>
+      <a href="#" class="menu-btn-filled">QIBLA DIRECTION</a>
+      <a href="#" class="menu-btn-filled">PRAYER TIMES</a>
+      <a href="#" class="menu-btn-filled">RAMADAN TRACKER</a>
+
+  <section class="info-section">
+    <div class="info-item">
+      <div class="info-header">
+        <a href="about.html">
+          <span class="info-title">&#8250; About us</span>
+        </a>
+      </div>
+      
+    </div>
+    <div class="info-item">
+      <div class="info-header">
+        <a href="privacy.html">
+          <span class="info-title">&#8250; Privacy Policy</span>
+        </a>
+      </div>
+      
+    </div>
+    <div class="info-item">
+      <div class="info-header">
+        <a href="terms.html">
+          <span class="info-title">&#8250; Terms and Conditions</span>
+        </a>
+      </div>
+     
+    </div>
+    <div class="info-item">
+      <div class="info-header">
+        <a href="index.html">
+          <span class="info-title">&#8250; Contact us</span>
+        </a>
+      </div>
+    </div>
+  </section>
+    </div>
+    </aside>
+
+    <div>
+        <div class="header text-center">
+            <h1 id="month-year">Month Year</h1>
+            <h3 id="hijri-range">Hijri Month Range</h3>
+        </div>
+    
+      <div class="calendar" id="calendar"></div>
+    </div>
+
+      <div id="festivalListBox"></div>
+
+      
+
+    <!-- <div class="container">
+        <div class="row">
+            <div class="text-center">
+                <h1 style="font-weight: 800; ">اسلامک کیلنڈر</h1>
+                <p><b>Islamic Calender</b></p>
+            </div>
+        </div>
+    </div>
+  -->
+
+  <script src="script.js"></script>
+  <script>
+    const calendarEl = document.getElementById('calendar');
+const monthYearEl = document.getElementById('month-year');
+const hijriRangeEl = document.getElementById('hijri-range');
+const festivalListBox = document.getElementById('festivalListBox');
+
+const today = new Date();
+const month = today.getMonth() + 1;
+const year = today.getFullYear();
+
+const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+// Add headers
+weekDays.forEach(day => {
+  const el = document.createElement('div');
+  el.className = 'day-name';
+  el.innerText = day;
+  calendarEl.appendChild(el);
+});
+
+fetch(`https://api.aladhan.com/v1/gToHCalendar/${month}/${year}`)
+  .then(res => res.json())
+  .then(data => {
+    const days = data.data;
+    const firstDay = new Date(days[0].gregorian.date).getDay();
+
+    // Header Info
+    const gMonth = days[0].gregorian.month.en;
+    const gYear = days[0].gregorian.year;
+    const hijriStart = days[0].hijri.month.en + ' ' + days[0].hijri.year;
+    const hijriEnd = days[days.length - 1].hijri.month.en + ' ' + days[days.length - 1].hijri.year;
+
+    monthYearEl.innerText = `${gMonth} ${gYear}`;
+    hijriRangeEl.innerText = `${hijriStart} – ${hijriEnd}`;
+
+    // Today's date (gregorian and hijri)
+    const todayG = today.getDate();
+    const todayM = today.getMonth() + 1;
+    const todayY = today.getFullYear();
+    // Hijri today (from API, since JS can't calculate it natively)
+    let todayHijri = null;
+    days.forEach(day => {
+      if (
+        parseInt(day.gregorian.day) === todayG &&
+        parseInt(day.gregorian.month.number) === todayM &&
+        parseInt(day.gregorian.year) === todayY
+      ) {
+        todayHijri = {
+          day: day.hijri.day,
+          month: day.hijri.month.number,
+          year: day.hijri.year
+        };
+      }
+    });
+
+    // Empty boxes
+    for (let i = 0; i < firstDay; i++) {
+      const blank = document.createElement('div');
+      blank.className = 'date-box';
+      calendarEl.appendChild(blank);
+    }
+
+    // Collect all festivals for the month
+    const festivals = [];
+
+    // Fill calendar
+    days.forEach(day => {
+      const box = document.createElement('div');
+      box.className = 'date-box';
+
+      // Highlight if today (gregorian)
+      if (
+        parseInt(day.gregorian.day) === todayG &&
+        parseInt(day.gregorian.month.number) === todayM &&
+        parseInt(day.gregorian.year) === todayY
+      ) {
+        box.classList.add('today');
+        box.title = "Today's Date";
+      }
+      // Highlight if today (hijri)
+      if (
+        todayHijri &&
+        day.hijri.day === todayHijri.day &&
+        day.hijri.month.number === todayHijri.month &&
+        day.hijri.year === todayHijri.year
+      ) {
+        box.classList.add('today');
+        box.title = "Today's Hijri Date";
+      }
+      // Highlight if festival/holiday
+      if (day.hijri.holidays && day.hijri.holidays.length > 0) {
+        box.classList.add('highlight');
+        box.title = day.hijri.holidays.join(', ');
+        // Add to festival list
+        day.hijri.holidays.forEach(festival => {
+          festivals.push({
+            name: festival,
+            gregorian: `${day.gregorian.day} ${day.gregorian.month.en} ${day.gregorian.year}`,
+            hijri: `${day.hijri.day} ${day.hijri.month.en} ${day.hijri.year}`
+          });
+        });
+      }
+
+      box.innerHTML = `
+        <div class="gregorian">${day.gregorian.day}</div>
+        <div class="hijri">${day.hijri.day} ${day.hijri.month.en}</div>
+        ${
+          day.hijri.holidays && day.hijri.holidays.length > 0
+            ? ''
+            : ''
+            // ? `<div class="festival">${day.hijri.holidays.map(f => `🎉 ${f}`).join('<br>')}</div>`
+            // : ''
+        }
+      `;
+      calendarEl.appendChild(box);
+    });
+
+    // Render festival list below calendar
+    if (festivals.length > 0) {
+      let html = `<div class="festival-list-box">
+        <h2>Festivals & Holidays This Month</h2>
+        <ul class="festival-list">`;
+      festivals.forEach(f => {
+        html += `<li>
+          <span class="festival-name">🎉 ${f.name}</span>
+          <span class="festival-date">Gregorian: ${f.gregorian}</span>
+          <span class="festival-date">Hijri: ${f.hijri}</span>
+        </li>`;
+      });
+      html += '</ul></div>';
+      festivalListBox.innerHTML = html;
+    } else {
+      festivalListBox.innerHTML = '';
+    }
+  })
+  .catch(err => {
+    calendarEl.innerHTML = `<p>⚠️ Calendar failed to load</p>`;
+    festivalListBox.innerHTML = '';
+    console.error(err);
+  });
+  </script>
+</body>
+</html>
