@@ -29,10 +29,11 @@
       grid-template-columns: repeat(7, 1fr);
       gap: 12px;
       padding: 20px;
-      width: 100vw;
+      width: 100%;
       max-width: 100vw;
       margin: 0 auto;
       box-sizing: border-box;
+      overflow-x: auto;
     }
 
     .day-name {
@@ -117,16 +118,16 @@
     }
 
     .festival-list-box {
-      background: #fffbe6;
-      border: 2px solid #ffe066;
+      background: #b8b6aa8f;
+      border: 2px solid black;
       border-radius: 12px;
       margin: 2rem auto 1rem auto;
       padding: 1.5rem 2rem;
-      max-width: 900px;
+      max-width: 45rem;
       box-shadow: 0 2px 12px rgba(255, 224, 102, 0.15);
     }
     .festival-list-box h2 {
-      color: #bfa003;
+      font-weight: 800;
       font-size: 1.3rem;
       margin-bottom: 1rem;
       text-align: center;
@@ -137,10 +138,11 @@
       margin: 0;
     }
     .festival-list li {
+      text-align: center;
       margin-bottom: 1rem;
       padding: 0.7rem 1rem;
-      background: #fffde7;
-      border-left: 5px solid #ffe066;
+      background: #2b2b26b3;
+      border-left: 8px solid #ffe066;
       border-radius: 6px;
       font-size: 1rem;
       display: flex;
@@ -149,21 +151,24 @@
     }
     .festival-list .festival-name {
       font-weight: bold;
-      color: #1e7e34;
+      color: #e4ff0f;
       font-size: 1.08rem;
     }
     .festival-list .festival-date {
-      color: #555;
+      color: white;
       font-size: 0.98rem;
     }
 
     @media (max-width: 1100px) {
       .calendar {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        width: 100vw;
+        max-width: 100vw;
+        overflow-x: auto;
       }
       .date-box, .day-name {
-        width: 95vw;
-        min-width: 0;
+        width: 30vw;
+        min-width: 7rem;
         max-width: 100vw;
       }
       .festival-list-box {
@@ -174,6 +179,9 @@
     @media (max-width: 600px) {
       .calendar {
         grid-template-columns: 1fr;
+        width: 100vw;
+        max-width: 100vw;
+        overflow-x: auto;
       }
       .date-box, .day-name {
         width: 98vw;
@@ -315,16 +323,16 @@
     </div>
     </aside>
 
-    <div>
-        <div class="header text-center">
-            <h1 id="month-year">Month Year</h1>
-            <h3 id="hijri-range">Hijri Month Range</h3>
+    <!-- Main Content -->
+        <div style="background-color: #1e7e34c4; padding: 1.5rem; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+            <div class="header text-center">
+                <h1 id="month-year">Month Year</h1>
+                 <h3 id="hijri-range">Hijri Month Range</h3>
+            </div>
+            
+            <div class="calendar" id="calendar"></div>
         </div>
-    
-      <div class="calendar" id="calendar"></div>
-    </div>
-
-      <div id="festivalListBox"></div>
+        <div id="festivalListBox"></div>
 
       
 

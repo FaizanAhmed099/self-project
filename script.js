@@ -242,60 +242,60 @@ function togglePassword(inputId, el) {
 
 // Qibla
 
-const KAABA_LAT = 21.4225;
-    const KAABA_LNG = 39.8262;
+// const KAABA_LAT = 21.4225;
+//     const KAABA_LNG = 39.8262;
 
-    function getQiblaAngle(lat, lng) {
-      const dLng = (KAABA_LNG - lng) * Math.PI / 180;
-      const lat1 = lat * Math.PI / 180;
-      const lat2 = KAABA_LAT * Math.PI / 180;
+//     function getQiblaAngle(lat, lng) {
+//       const dLng = (KAABA_LNG - lng) * Math.PI / 180;
+//       const lat1 = lat * Math.PI / 180;
+//       const lat2 = KAABA_LAT * Math.PI / 180;
 
-      const y = Math.sin(dLng) * Math.cos(lat2);
-      const x = Math.cos(lat1) * Math.sin(lat2) -
-                Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
+//       const y = Math.sin(dLng) * Math.cos(lat2);
+//       const x = Math.cos(lat1) * Math.sin(lat2) -
+//                 Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLng);
 
-      let brng = Math.atan2(y, x) * 180 / Math.PI;
-      return (brng + 360) % 360;
-    }
+//       let brng = Math.atan2(y, x) * 180 / Math.PI;
+//       return (brng + 360) % 360;
+//     }
 
-    function rotateArrow(angle) {
-      const arrowElem = document.getElementById("arrow");
-      if (arrowElem) {
-        arrowElem.style.transform = `translateX(-50%) rotate(${angle}deg)`;
-      }
-    }
+//     function rotateArrow(angle) {
+//       const arrowElem = document.getElementById("arrow");
+//       if (arrowElem) {
+//         arrowElem.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+//       }
+//     }
 
-    navigator.geolocation.getCurrentPosition(position => {
-      const userLat = position.coords.latitude;
-      const userLng = position.coords.longitude;
-      const qiblaAngle = getQiblaAngle(userLat, userLng);
+//     navigator.geolocation.getCurrentPosition(position => {
+//       const userLat = position.coords.latitude;
+//       const userLng = position.coords.longitude;
+//       const qiblaAngle = getQiblaAngle(userLat, userLng);
 
-      const infoElem = document.getElementById("info");
-      if (infoElem) {
-        infoElem.innerHTML = `Qibla Angle: ${qiblaAngle.toFixed(2)}° from North`;
-      }
+//       const infoElem = document.getElementById("info");
+//       if (infoElem) {
+//         infoElem.innerHTML = `Qibla Angle: ${qiblaAngle.toFixed(2)}° from North`;
+//       }
 
-      if (window.DeviceOrientationEvent) {
-        window.addEventListener("deviceorientationabsolute", handleOrientation, true);
-        window.addEventListener("deviceorientation", handleOrientation, true);
+//       if (window.DeviceOrientationEvent) {
+//         window.addEventListener("deviceorientationabsolute", handleOrientation, true);
+//         window.addEventListener("deviceorientation", handleOrientation, true);
 
-        function handleOrientation(event) {
-          const compassHeading = event.webkitCompassHeading || Math.abs(event.alpha - 360);
-          const angle = qiblaAngle - compassHeading;
-          rotateArrow(angle);
-        }
-      } else {
-        const infoElem = document.getElementById("info");
-        if (infoElem) {
-          infoElem.innerHTML += "<br>Compass not supported on this device.";
-        }
-      }
-    }, error => {
-      const infoElem = document.getElementById("info");
-      if (infoElem) {
-        infoElem.innerText = "Location access denied.";
-      }
-    });
+//         function handleOrientation(event) {
+//           const compassHeading = event.webkitCompassHeading || Math.abs(event.alpha - 360);
+//           const angle = qiblaAngle - compassHeading;
+//           rotateArrow(angle);
+//         }
+//       } else {
+//         const infoElem = document.getElementById("info");
+//         if (infoElem) {
+//           infoElem.innerHTML += "<br>Compass not supported on this device.";
+//         }
+//       }
+//     }, error => {
+//       const infoElem = document.getElementById("info");
+//       if (infoElem) {
+//         infoElem.innerText = "Location access denied.";
+//       }
+//     });
 
     function updateLiveClockCard() {
   // Use Indian Standard Time (Asia/Kolkata)
