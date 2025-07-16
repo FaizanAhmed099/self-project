@@ -470,16 +470,16 @@ function getPrayerTimes(lat, lon, country = null, zipcode = null) {
         nextTime = tmr;
       }
       document.getElementById('prayerName').textContent = `Next Prayer: ${nextPrayer}`;
-      let popupShown = false;
       function updateCountdown() {
         const now = new Date();
         const diff = nextTime - now;
-        if (diff <= 0 && !popupShown) {
+        if (diff <= 0 && lastPopupPrayer !== nextPrayer) {
           const urdu = prayerNamesUrdu[nextPrayer] || '';
           showPopupAndPlayAudio(`🕌 It's time to pray ${nextPrayer} (${urdu})!`, true, function onPopupClose() {
             location.reload();
           });
-          popupShown = true;
+          lastPopupPrayer = nextPrayer;
+          document.getElementById('remaining').textContent = '00:00:00';
           return;
         }
         if (diff > 0) {

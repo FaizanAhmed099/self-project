@@ -246,7 +246,7 @@ hr {
 
 /* Buttons */
 .menu-btn-outline {
-    width: 100%;
+    width: 80%;
     border: 2px solid rgba(0, 0, 0, 0.639);
     padding: 12px;
     text-align: center;
@@ -265,7 +265,7 @@ hr {
 }
 
 .menu-btn-filled {
-    width: 100%;
+    width: 80%;
     padding: 12px;
     text-align: center;
     border-radius: 30px;
@@ -360,7 +360,7 @@ footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.8rem 1rem;
+    padding: 0.8rem 2rem;
     cursor: pointer;
     border-bottom: 1px solid #eee;
 }
@@ -375,7 +375,7 @@ footer {
 
 .info-title {
     font-weight: 600;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .info-icon {
@@ -538,7 +538,7 @@ footer {
 @media screen and (max-width: 769px) {
     .sidebar-right {
         width: 80%;
-        max-width: 300px;
+        max-width: 14rem;
         padding: 2rem 1.5rem;
     }
     .modern-search-bar{
@@ -764,7 +764,7 @@ footer {
 
 @media (max-width: 600px) {
   .modern-search-bar {
-    width: 25rem;
+    width: 24rem;
     padding: 0.7rem 0.5rem;
     gap: 1.3rem;
   }
