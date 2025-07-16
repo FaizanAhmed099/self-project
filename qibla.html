@@ -29,6 +29,80 @@ h1 {
   font-size: 14px;
 }
 
+:root {
+  --compass-bg: #23272b;
+  --compass-border: #444;
+  --compass-text: #fff;
+  --north-marker: #ff3b3b;
+  --compass-shadow: 0 8px 32px #000a, 0 1.5px 8px #0006;
+  --compass-inner-bg: #2d3136;
+  --compass-inner-shadow: 0 2px 8px #0008 inset;
+  --compass-glass: rgba(255,255,255,0.08);
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --compass-bg: #f5f6fa;
+    --compass-border: #bbb;
+    --compass-text: #23272b;
+    --north-marker: #e74c3c;
+    --compass-shadow: 0 8px 32px #0002, 0 1.5px 8px #0001;
+    --compass-inner-bg: #fff;
+    --compass-inner-shadow: 0 2px 8px #0001 inset;
+    --compass-glass: rgba(0,0,0,0.04);
+  }
+}
+#compass-container {
+  margin: 30px auto;
+  width: 320px;
+  height: 320px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 60% 40%, #23272b 70%, #181a1d 100%);
+  border-radius: 50%;
+  box-shadow: var(--compass-shadow);
+}
+#compass {
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 1;
+}
+#compass-inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 3;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: var(--compass-inner-bg);
+  box-shadow: var(--compass-inner-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid var(--compass-glass);
+}
+#compass-inner .degree {
+  font-size: 2.7rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px #000a;
+}
+#compass-inner .dir {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #b2bec3;
+  margin-top: -6px;
+  letter-spacing: 2px;
+}
+#qibla-dot {
+  fill: orange;
+  filter: drop-shadow(0 0 6px #ffb300cc);
+}
 </style>
 <body class="about-bg">
   <!-- Background Video -->
@@ -98,53 +172,209 @@ h1 {
     <h1>🕌 Qibla Direction Finder</h1>
     <div id="location">Detecting your location...</div>
     <div id="qibla">Fetching Qibla direction...</div>
+    <div id="compass-container">
+      <svg id="compass" width="320" height="320" viewBox="0 0 320 320">
+        <defs>
+          <radialGradient id="compassGrad" cx="60%" cy="40%" r="80%">
+            <stop offset="0%" stop-color="#23272b"/>
+            <stop offset="100%" stop-color="#181a1d"/>
+          </radialGradient>
+        </defs>
+        <circle cx="160" cy="160" r="150" fill="url(#compassGrad)" stroke="var(--compass-border)" stroke-width="4"/>
+        <!-- Degree lines and numbers -->
+        <g id="degree-lines"></g>
+        <!-- Cardinal directions (fully outside, dark font) -->
+        <text x="160" y="-32" text-anchor="middle" font-size="38" fill="#222" font-weight="bold" style="text-shadow: 0 2px 8px #fff8;">N</text>
+        <text x="160" y="350" text-anchor="middle" font-size="38" fill="#222" font-weight="bold" style="text-shadow: 0 2px 8px #fff8;">S</text>
+        <text x="-32" y="170" text-anchor="middle" font-size="38" fill="#222" font-weight="bold" style="text-shadow: 0 2px 8px #fff8;">W</text>
+        <text x="352" y="170" text-anchor="middle" font-size="38" fill="#222" font-weight="bold" style="text-shadow: 0 2px 8px #fff8;">E</text>
+        <!-- Qibla orange dot with arrow (arrow will be positioned by JS) -->
+        <g id="qibla-dot-group" style="display:none;">
+          <circle id="qibla-dot" cx="160" cy="160" r="10" fill="orange" filter="drop-shadow(0 0 6px #ffb300cc)"/>
+          <polygon id="qibla-dot-arrow" points="160,150 164,160 160,157 156,160" fill="#fff"/>
+        </g>
+      </svg>
+      <div id="compass-inner">
+        <div class="degree" id="degree-readout">--°</div>
+        <div class="dir" id="dir-readout">---</div>
+      </div>
+    </div>
     <div id="error" class="error"></div>
   </div>
 
 
   <script src="script.js"></script>
   <script>
-    function getDirection(lat, lon) {
-  fetch(`https://api.aladhan.com/v1/qibla/${lat}/${lon}`)
-    .then(res => res.json())
-    .then(data => {
-      const direction = Math.round(data.data.direction);
-      document.getElementById("qibla").innerText = `🕋 Qibla Direction: ${direction}° from North`;
-    })
-    .catch(() => {
-      document.getElementById("qibla").innerText = "Failed to fetch Qibla direction.";
-    });
-}
-
-function getLocationName(lat, lon) {
-  fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
-    .then(res => res.json())
-    .then(data => {
-      const city = data.address.city || data.address.town || data.address.village || "your location";
-      document.getElementById("location").innerText = `📍 Your Location: ${city}`;
-    })
-    .catch(() => {
-      document.getElementById("location").innerText = `📍 Latitude: ${lat}, Longitude: ${lon}`;
-    });
-}
-
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(
-    position => {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
-
-      getLocationName(lat, lon);
-      getDirection(lat, lon);
-    },
-    error => {
-      document.getElementById("error").innerText = "Location access denied. Please allow location access.";
+    // Draw 360 degree lines and numbers for new compass
+    function drawDegreeLines() {
+      const g = document.getElementById('degree-lines');
+      let lines = '';
+      for (let i = 0; i < 360; i++) {
+        const angle = (i - 90) * Math.PI / 180;
+        const r1 = (i % 10 === 0) ? 120 : 135;
+        const r2 = 148;
+        const x1 = 160 + r1 * Math.cos(angle);
+        const y1 = 160 + r1 * Math.sin(angle);
+        const x2 = 160 + r2 * Math.cos(angle);
+        const y2 = 160 + r2 * Math.sin(angle);
+        lines += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--compass-border)" stroke-width="${i % 10 === 0 ? 2 : 1}" />`;
+        if (i % 30 === 0) {
+          // Show degree numbers every 30°
+          const tx = 160 + 105 * Math.cos(angle);
+          const ty = 160 + 105 * Math.sin(angle) + 7;
+          lines += `<text x="${tx}" y="${ty}" text-anchor="middle" font-size="15" fill="var(--compass-text)" style="text-shadow:0 2px 6px #000a;">${i}</text>`;
+        }
+      }
+      g.innerHTML = lines;
     }
-  );
-} else {
-  document.getElementById("error").innerText = "Geolocation is not supported by this browser.";
-}
+    drawDegreeLines();
 
+    // Helper: get compass direction abbreviation
+    function getDirectionAbbr(deg) {
+      const dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"];
+      return dirs[Math.round(deg / 45) % 8];
+    }
+
+    // Calculate bearing from user's location to Kaaba
+    function calculateQiblaDirection(lat1, lon1) {
+      const lat2 = 21.4225 * Math.PI / 180;
+      const lon2 = 39.8262 * Math.PI / 180;
+      lat1 = lat1 * Math.PI / 180;
+      lon1 = lon1 * Math.PI / 180;
+      const dLon = lon2 - lon1;
+      const x = Math.sin(dLon) * Math.cos(lat2);
+      const y = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+      let brng = Math.atan2(x, y);
+      brng = brng * 180 / Math.PI;
+      brng = (brng + 360) % 360;
+      return Math.round(brng);
+    }
+
+    function updateQiblaDot(direction, deviceHeading = 0) {
+      // Place the orange dot and arrow at the Qibla direction on the ring
+      const group = document.getElementById('qibla-dot-group');
+      const dot = document.getElementById('qibla-dot');
+      const arrow = document.getElementById('qibla-dot-arrow');
+      const angle = (direction - deviceHeading - 90) * Math.PI / 180;
+      const r = 134; // radius for dot
+      const cx = 160 + r * Math.cos(angle);
+      const cy = 160 + r * Math.sin(angle);
+      group.style.display = '';
+      dot.setAttribute('cx', cx);
+      dot.setAttribute('cy', cy);
+      // Arrow: points outward from center, rotate to match Qibla direction
+      // Arrow shape is relative to (160,160), so translate and rotate
+      const arrowLength = 16;
+      const arrowWidth = 8;
+      // Arrow tip at (cx, cy), base at (cx - arrowLength*cos, cy - arrowLength*sin)
+      const tipX = cx;
+      const tipY = cy;
+      const baseX = cx - arrowLength * Math.cos(angle);
+      const baseY = cy - arrowLength * Math.sin(angle);
+      const leftX = baseX + (arrowWidth/2) * Math.sin(angle);
+      const leftY = baseY - (arrowWidth/2) * Math.cos(angle);
+      const rightX = baseX - (arrowWidth/2) * Math.sin(angle);
+      const rightY = baseY + (arrowWidth/2) * Math.cos(angle);
+      arrow.setAttribute('points', `${tipX},${tipY} ${leftX},${leftY} ${rightX},${rightY}`);
+    }
+
+    function updateReadout(direction) {
+      document.getElementById('degree-readout').innerText = `${direction}°`;
+      document.getElementById('dir-readout').innerText = getDirectionAbbr(direction);
+    }
+
+    let qiblaDirection = null;
+    let compassSupported = false;
+    let lastHeading = 0;
+
+    function rotateCompass(direction, deviceHeading = 0) {
+      // Rotate the compass ring, update orange dot, and digital readout
+      const compass = document.getElementById('compass');
+      compass.style.transform = `rotate(${-deviceHeading}deg)`;
+      updateQiblaDot(direction, deviceHeading);
+      updateReadout((direction - deviceHeading + 360) % 360);
+    }
+
+    function handleOrientation(event) {
+      if (qiblaDirection !== null) {
+        let heading = event.alpha;
+        if (typeof event.webkitCompassHeading !== 'undefined') {
+          heading = event.webkitCompassHeading;
+        }
+        if (typeof heading === 'number') {
+          heading = Math.round(heading);
+          lastHeading = heading;
+          rotateCompass(qiblaDirection, heading);
+        }
+      }
+    }
+
+    function getDirection(lat, lon) {
+      qiblaDirection = calculateQiblaDirection(lat, lon);
+      rotateCompass(qiblaDirection, lastHeading || 0);
+      // Update Qibla text immediately
+      document.getElementById("qibla").innerText = `🕋 Qibla Direction: ${qiblaDirection}° from North`;
+      // Try to enable compass
+      if (window.DeviceOrientationEvent && typeof window.DeviceOrientationEvent.requestPermission === 'function') {
+        document.getElementById('compass-container').addEventListener('click', function askPermission() {
+          window.DeviceOrientationEvent.requestPermission().then(response => {
+            if (response === 'granted') {
+              compassSupported = true;
+              window.addEventListener('deviceorientation', handleOrientation, true);
+            }
+          });
+          this.removeEventListener('click', askPermission);
+        });
+      } else if (window.DeviceOrientationEvent) {
+        compassSupported = true;
+        window.addEventListener('deviceorientation', handleOrientation, true);
+      }
+    }
+
+    function getLocationName(lat, lon) {
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
+        .then(res => res.json())
+        .then(data => {
+          const city = data.address.city || data.address.town || data.address.village || data.display_name || "your location";
+          document.getElementById("location").innerHTML = `📍 <b>Your Location:</b> ${city}`;
+        })
+        .catch(() => {
+          document.getElementById("location").innerHTML = `📍 <b>Latitude:</b> ${lat}, <b>Longitude:</b> ${lon}`;
+        });
+    }
+
+    function getLocationByIP() {
+      // Use ip-api.com for free IP geolocation
+      fetch('https://ip-api.io/json')
+        .then(res => res.json())
+        .then(data => {
+          const lat = data.latitude;
+          const lon = data.longitude;
+          getLocationName(lat, lon);
+          getDirection(lat, lon);
+        })
+        .catch(() => {
+          document.getElementById("error").innerText = "Unable to determine location by IP.";
+        });
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          getLocationName(lat, lon);
+          getDirection(lat, lon);
+        },
+        error => {
+          document.getElementById("error").innerText = "Location access denied. Using IP-based location...";
+          getLocationByIP();
+        }
+      );
+    } else {
+      document.getElementById("error").innerText = "Geolocation is not supported by this browser. Using IP-based location...";
+      getLocationByIP();
+    }
   </script>
 
 </body>
