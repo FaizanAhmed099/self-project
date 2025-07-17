@@ -414,6 +414,7 @@ function getBrowserTimezone() {
   return Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 
+let lastPopupPrayer = null;
 function getPrayerTimes(lat, lon, country = null, zipcode = null) {
   // Use Aladhan API
   let apiUrl = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`;
@@ -435,48 +436,39 @@ function getPrayerTimes(lat, lon, country = null, zipcode = null) {
         Maghrib: times.Maghrib,
         Isha: times.Isha
       };
-      // Fill in the prayer times table (if you have these elements)
-      if (document.getElementById('ptFajr')) document.getElementById('ptFajr').textContent = mappedTimes.Fajr || '-';
-      if (document.getElementById('ptDhuhr')) document.getElementById('ptDhuhr').textContent = mappedTimes.Dhuhr || '-';
-      if (document.getElementById('ptAsr')) document.getElementById('ptAsr').textContent = mappedTimes.Asr || '-';
-      if (document.getElementById('ptMaghrib')) document.getElementById('ptMaghrib').textContent = mappedTimes.Maghrib || '-';
-      if (document.getElementById('ptIsha')) document.getElementById('ptIsha').textContent = mappedTimes.Isha || '-';
-      const now = new Date();
-      let nextPrayer = null;
-      let nextTime = null;
-      for (let prayer of prayerOrder) {
-        let t = mappedTimes[prayer];
-        if (!t) continue;
-        // Parse time (API returns e.g. 04:01)
-        let [h, m] = t.split(':').map(Number);
-        const prayerTime = new Date(now);
-        prayerTime.setHours(h);
-        prayerTime.setMinutes(m);
-        prayerTime.setSeconds(0);
-        if (prayerTime > now) {
-          nextPrayer = prayer;
-          nextTime = prayerTime;
-          break;
-        }
-      }
-      // If all prayers passed, next is Fajr tomorrow
-      if (!nextPrayer) {
-        let t = mappedTimes['Fajr'];
-        let [h, m] = t.split(':').map(Number);
-        const tmr = new Date(now);
-        tmr.setDate(tmr.getDate() + 1);
-        tmr.setHours(h, m, 0, 0);
-        nextPrayer = 'Fajr';
-        nextTime = tmr;
-      }
-      document.getElementById('prayerName').textContent = `Next Prayer: ${nextPrayer}`;
       function updateCountdown() {
         const now = new Date();
+        let nextPrayer = null;
+        let nextTime = null;
+        for (let prayer of prayerOrder) {
+          let t = mappedTimes[prayer];
+          if (!t) continue;
+          let [h, m] = t.split(':').map(Number);
+          const prayerTime = new Date(now);
+          prayerTime.setHours(h);
+          prayerTime.setMinutes(m);
+          prayerTime.setSeconds(0);
+          if (prayerTime > now) {
+            nextPrayer = prayer;
+            nextTime = prayerTime;
+            break;
+          }
+        }
+        if (!nextPrayer) {
+          let t = mappedTimes['Fajr'];
+          let [h, m] = t.split(':').map(Number);
+          const tmr = new Date(now);
+          tmr.setDate(tmr.getDate() + 1);
+          tmr.setHours(h, m, 0, 0);
+          nextPrayer = 'Fajr';
+          nextTime = tmr;
+        }
+        document.getElementById('prayerName').textContent = `Next Prayer: ${nextPrayer}`;
         const diff = nextTime - now;
         if (diff <= 0 && lastPopupPrayer !== nextPrayer) {
           const urdu = prayerNamesUrdu[nextPrayer] || '';
           showPopupAndPlayAudio(`🕌 It's time to pray ${nextPrayer} (${urdu})!`, true, function onPopupClose() {
-            location.reload();
+            // No reload needed, just close the popup
           });
           lastPopupPrayer = nextPrayer;
           document.getElementById('remaining').textContent = '00:00:00';
